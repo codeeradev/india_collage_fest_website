@@ -3,7 +3,7 @@ const WhyBookWithUs = () => {
     <section aria-label="Why Book With Us" className="bg-indigo-50/30">
       <section className="md:max-w-7xl mx-auto md:px-4 py-10 overflow-hidden">
         <header className="text-center mb-8 pl-2 md:pl-0">
-          <h2 className="font-semibold text-2xl md:text-3xl text-gray-800">🎟️ Why Book with Ticket9?</h2>
+          <h2 className="font-semibold text-2xl md:text-3xl text-gray-800">🎟️ Why Book with us?</h2>
           <p className="text-gray-600 text-sm md:text-base mt-1 md:mt-2">
             Enjoy a seamless and delightful ticketing experience with these powerful benefits
           </p>

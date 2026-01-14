@@ -230,7 +230,7 @@ const LandingPage = () => {
                               id="download-app-heading"
                               className="text-2xl md:text-3xl font-bold text-gray-900 mb-3"
                             >
-                              Download Ticket9 App
+                              Download Our App
                             </h2>
                             <div className="text-gray-700 text-sm md:text-base space-y-2 max-w-2xl">
                               <div className="flex md:items-start gap-2">
