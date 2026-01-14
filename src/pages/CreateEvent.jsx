@@ -20,18 +20,6 @@ const CreateEvent = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
 
-    const [loading, setLoading] = useState(false);
-    const [alert, setAlert] = useState({ type: "", message: "" });
-
-    /* ---------------- AUTO HIDE ALERT ---------------- */
-    useEffect(() => {
-        if (alert.message) {
-            const timer = setTimeout(() => {
-                setAlert({ type: "", message: "" });
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [alert]);
 
     /* ---------------- FETCH INITIAL DATA ---------------- */
     useEffect(() => {
@@ -46,10 +34,7 @@ const CreateEvent = () => {
                 setCities(cityRes.data.data || []);
             } catch (error) {
                 console.log("error", error)
-                setAlert({
-                    type: "error",
-                    message: "Failed to load initial data",
-                });
+                showAlert("error", "Failed to load initial data");
             }
         };
 
@@ -71,14 +56,12 @@ const CreateEvent = () => {
 
         try {
             const res = await get(
-                `${ENDPOINTS.GET_SUB_CATEGORIES}?categoryId=${categoryId}`
+                `${ENDPOINTS.GET_SUB_CATEGORIES}/${categoryId}`
             );
-            setSubCategories(res.data.subCategory || []);
+            setSubCategories(res.data.subCategories || []);
         } catch {
-            setAlert({
-                type: "error",
-                message: "Failed to load sub categories",
-            });
+            showAlert("error", "Failed to load initial data");
+
         }
     };
 
@@ -93,15 +76,12 @@ const CreateEvent = () => {
     /* ---------------- SUBMIT ---------------- */
     const submitEvent = async () => {
         if (!form.title || !form.category || !form.location) {
-            setAlert({
-                type: "warning",
-                message: "Please fill required fields",
-            });
+            showAlert("warning", "Please fill required fields");
             return;
         }
 
         try {
-            setLoading(true);
+            showAlert("loading", "Creating event...");
 
             const formData = new FormData();
             Object.entries(form).forEach(([key, value]) =>
@@ -114,10 +94,7 @@ const CreateEvent = () => {
                 authRequired: true,
             });
 
-            setAlert({
-                type: "success",
-                message: "Event created successfully",
-            });
+            showAlert("success", "Event created successfully");
 
             setForm({
                 title: "",
@@ -132,27 +109,13 @@ const CreateEvent = () => {
             setPreview(null);
             setSubCategories([]);
         } catch {
-            setAlert({
-                type: "error",
-                message: "Something went wrong while creating event",
-            });
-        } finally {
-            setLoading(false);
+            showAlert("error", "Something went wrong while creating event");
         }
     };
 
     /* ---------------- UI ---------------- */
     return (
         <div className="pt-28 pb-20 bg-slate-50 min-h-screen relative">
-
-            {/* 🔔 RIGHT SIDE NOTIFICATION */}
-            <div className="fixed top-24 right-6 z-50 w-[340px] animate-slide-in">
-                {alert.message && (
-                    <Alert type={alert.type} message={alert.message} />
-                )}
-            </div>
-
-            {loading && <Loader label="Creating event..." />}
 
             <div className="max-w-3xl mx-auto px-4 space-y-6">
                 {/* Header */}

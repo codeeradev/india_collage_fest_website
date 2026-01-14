@@ -19,5 +19,5 @@ export const ENDPOINTS = {
   // CATEGORIES
   // ========================
   GET_CATEGORIES: "/get-category",
-  GET_SUB_CATEGORIES: (categoryId) =>`/get-sub-category/${categoryId}`, // GET
+  GET_SUB_CATEGORIES: "/get-sub-category",
 };
