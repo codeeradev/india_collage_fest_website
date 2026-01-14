@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ENDPOINTS } from "../api/endpoints";
 import { get, post } from "../api/apiClient";
-import { Alert, Loader } from "../components/AlertAndLoader/Alert";
+import { showAlert } from "../components/AlertAndLoader/UIComponents";
 
 const CreateEvent = () => {
     const [form, setForm] = useState({
