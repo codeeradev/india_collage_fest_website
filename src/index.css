@@ -27,4 +27,43 @@ html, body {
   padding: 0;
 }
 
+.input {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+  margin-bottom: 14px;
+  transition: all 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #fb5f6a;
+  box-shadow: 0 0 0 3px rgba(251, 95, 106, 0.15);
+}
+
+.auth-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 420px;
+  width: 100%;
+}
+
+.auth-btn {
+  background-color: #fb5f6a;
+  color: #fff;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 14px;
+  transition: all 0.2s ease;
+}
+
+.auth-btn:hover {
+  background-color: #f43f5e;
+  transform: translateY(-1px);
+}
+
 /* Add more as needed */

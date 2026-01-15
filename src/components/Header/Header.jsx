@@ -2,7 +2,6 @@ import { useState } from "react";
 import ExploreMenu from "./ExploreMenu";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
-import UserMenu from "./UserMenu";
 import CitySelectorModal from "./CitySelectorModal";
 import { useNavigate } from "react-router-dom";
 
@@ -82,7 +81,10 @@ const Header = () => {
                 Create Event
               </button>
 
-              <UserMenu />
+              <button className="self-center text-opacity-90 group px-4 py-2 border border-neutral-300 hover:border-neutral-400 rounded-full inline-flex items-center text-sm text-gray-700 font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 item-center gap-1 shadow-lg"
+                onClick={() => navigate("/login")}>
+                Login
+              </button>
 
               <button className="lg:hidden w-10 h-10 flex items-center justify-center rounded-md border border-slate-200 text-slate-600 hover:bg-slate-100">
                 <svg
