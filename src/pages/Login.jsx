@@ -4,12 +4,18 @@ import OtpInput from "../components/Auth/OtpInput";
 import { post } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 import { showAlert } from "../components/AlertAndLoader/UIComponents";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../components/Auth/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState("email"); // email | otp
+
+  const navigate = useNavigate();
+
+  const { login } = useContext(AuthContext);
 
   /* ---------------- SEND OTP ---------------- */
   const sendOtp = async () => {
@@ -39,8 +45,10 @@ const Login = () => {
     try {
       showAlert("loading", "Verifying OTP...");
       const res = await post(ENDPOINTS.VERIFY_OTP, { email, otp });
-      localStorage.setItem("token", res.data.token);
+      console.log(res.data.token);
+      login(res.data.user, res.data.token);
       showAlert("success", "Login successful");
+      navigate("/");
     } catch {
       showAlert("error", "Invalid OTP");
     }
@@ -48,54 +56,51 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <h2 className="text-2xl font-semibold mb-2 text-slate-900">
-        Good to see you again 👋
-      </h2>
-
-      <p className="text-slate-600 mb-4">
-        Don&apos;t have an account?{" "}
-        <Link to="/register" className="text-rose-500 font-medium">
-          Create one now
-        </Link>
-      </p>
-
-      {/* EMAIL STEP */}
+      {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
         <>
+          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
+            Welcome back
+          </h2>
+
           <input
             type="email"
             placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-slate-300 rounded-lg px-4 py-3 mb-4 focus:ring-2 focus:ring-rose-400 outline-none"
+            className="w-full border border-slate-300 rounded-xl px-4 py-3.5 mb-6 focus:ring-2 focus:ring-rose-400 outline-none"
           />
 
           <button
             onClick={sendOtp}
             style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
-            className="w-full py-3 rounded-lg font-semibold"
+            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm"
           >
-            Send OTP
+            Continue
           </button>
         </>
       )}
 
-      {/* OTP STEP */}
+      {/* ================= OTP STEP ================= */}
       {step === "otp" && (
         <>
+          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
+            Enter verification code
+          </h2>
+
           <OtpInput value={otp} onChange={setOtp} />
 
           <button
             onClick={verifyOtp}
             style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
-            className="w-full py-3 rounded-lg font-semibold mt-4"
+            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm mt-6"
           >
             Verify & Login
           </button>
 
           <button
             onClick={sendOtp}
-            className="w-full text-sm text-slate-500 mt-3"
+            className="w-full text-sm text-slate-500 mt-4"
           >
             Resend OTP
           </button>

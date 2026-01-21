@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { API_BASE_URL } from './endpoints.jsx';
+import axios from "axios";
+import { API_BASE_URL } from "./endpoints.jsx";
 
 // Create axios instance
 const apiClient = axios.create({
@@ -10,7 +10,7 @@ const apiClient = axios.create({
 // Get token from localStorage
 const getToken = () => {
   const token = localStorage.getItem("token");
-  //console.log('API Client: getToken called, token found:', !!token);
+  console.log("API Client: getToken called, token found:", !!token);
   return token;
 };
 
@@ -28,8 +28,8 @@ const withAuth = (config = {}) => {
     ...config,
     headers: {
       ...config.headers,
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
 
   //console.log('API Client: withAuth final config headers:', authConfig.headers);
@@ -48,7 +48,7 @@ apiClient.interceptors.request.use(
 
       if (token) {
         config.headers = config.headers || {};
-        config.headers['Authorization'] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token}`;
         //console.log('API Client: Authorization header set:', config.headers['Authorization']);
       } else {
         //console.warn('API Client: authRequired: true but no token found in localStorage');
@@ -62,7 +62,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -86,15 +86,18 @@ apiClient.interceptors.response.use(
       // console.warn('API Client: 401 Unauthorized - token might be invalid');
       // console.log('API Client: Error response data:', error.response?.data);
 
-      const message = error.response?.data?.message?.toLowerCase() || '';
+      const message = error.response?.data?.message?.toLowerCase() || "";
 
       if (
-        message.includes('unauthorized') ||
-        message.includes('invalid token') ||
-        message.includes('token expired')
+        message.includes("unauthorized") ||
+        message.includes("invalid token") ||
+        message.includes("token expired")
       ) {
         // console.log('API Client: Removing token due to authentication failure');
         localStorage.removeItem("token");
+        localStorage.removeItem("expiresAt");
+        localStorage.removeItem("user");
+
         // console.log('API Client: Token removed, current token:', !!localStorage.getItem("token"));
       } else {
         // console.log('API Client: 401 error but not removing token - might be server issue');
@@ -102,7 +105,7 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // Helper functions

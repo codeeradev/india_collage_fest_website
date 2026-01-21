@@ -1,23 +1,33 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ExploreMenu from "./ExploreMenu";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import CitySelectorModal from "./CitySelectorModal";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Auth/AuthContext";
 
 const Header = () => {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [cityModalOpen, setCityModalOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState(null);
+  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
+  const handleCreateEvent = () => {
+  if (!user) {
+    navigate("/login");
+    return;
+  }
+
+  navigate("/create-event");
+};
+
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b border-slate-200">
+      <header className="fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
         <div className="max-w-[1400px] mx-auto px-6">
           <div className="h-20 flex items-center justify-between">
-
             {/* LEFT */}
             <div className="flex items-center gap-6">
               <a href="/" className="flex items-center">
@@ -25,20 +35,18 @@ const Header = () => {
               </a>
 
               {/* EXPLORE */}
-              <div
-                className="relative hidden lg:block"
-                onMouseEnter={() => setExploreOpen(true)}
-                onMouseLeave={() => setExploreOpen(false)}
-              >
+              <div className="relative hidden lg:block">
                 <button
                   type="button"
-                  onClick={() => setExploreOpen(prev => !prev)}
-                  className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-indigo-600 transition"
+                  onClick={() => setExploreOpen((prev) => !prev)}
+                  className="flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-indigo-600"
                 >
                   Explore
-                  <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M5.23 7.21L10 11.9l4.77-4.69 1.06 1.06L10 14.02 4.17 8.27z" />
-                  </svg>
+                  <svg
+                    className={`w-3.5 h-3.5 transition ${
+                      exploreOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
                 {exploreOpen && (
@@ -48,17 +56,18 @@ const Header = () => {
                 )}
               </div>
             </div>
-
             {/* CENTER SEARCH (DESKTOP ONLY) */}
             <div className="hidden lg:flex flex-1 justify-center">
-              <div className="w-full max-w-[460px]">
-                <SearchBar />
+              <div className="w-full max-w-[520px]">
+                <div className="rounded-full shadow-sm border border-slate-200 hover:shadow-md transition">
+                  <SearchBar />
+                </div>
               </div>
             </div>
-
             {/* RIGHT */}
             <div className="flex items-center gap-3">
-              <button className="hidden md:flex items-center gap-1 text-sm text-slate-600 hover:text-slate-900"
+              <button
+                className="hidden md:flex items-center gap-1 text-sm text-slate-500 hover:text-indigo-600"
                 onClick={() => setCityModalOpen(true)}
               >
                 <svg
@@ -75,29 +84,34 @@ const Header = () => {
               </button>
 
               <button
-                onClick={() => navigate("/create-event")}
-                className="hidden lg:flex px-4 py-2 text-sm font-semibold border border-slate-300 rounded-full hover:bg-slate-100"
+                onClick={handleCreateEvent}
+                className="hidden lg:flex px-4 py-2 text-sm font-medium rounded-full border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition"
               >
                 Create Event
               </button>
 
-              <button className="self-center text-opacity-90 group px-4 py-2 border border-neutral-300 hover:border-neutral-400 rounded-full inline-flex items-center text-sm text-gray-700 font-medium hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 item-center gap-1 shadow-lg"
-                onClick={() => navigate("/login")}>
-                Login
-              </button>
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => navigate("/profile")}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full border"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold uppercase">
+                      {user?.name?.charAt(0)}
+                    </div>
 
-              <button className="lg:hidden w-10 h-10 flex items-center justify-center rounded-md border border-slate-200 text-slate-600 hover:bg-slate-100">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
+                    <span className="text-sm font-medium">{user?.name}</span>
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="px-5 py-2 text-sm font-semibold rounded-full bg-indigo-600 text-white"
                 >
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
+                  Login
+                </button>
+              )}
+            </div>{" "}
           </div>
         </div>
       </header>
@@ -107,7 +121,8 @@ const Header = () => {
         onSelect={(city) => {
           setSelectedCity(city);
           setCityModalOpen(false);
-        }} />
+        }}
+      />
     </>
   );
 };

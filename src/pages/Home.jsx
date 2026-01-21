@@ -1,7 +1,8 @@
 import Hero from "../components/Hero/Hero";
 import FeaturedEvents from "../components/FeaturedEvents/FeaturedEvents";
 import PopularEvents from "../components/PopularEvents/PopularEvents";
-import RecommendedEvents from "../components/RecommendedEvents";
+// import RecommendedEvents from "../components/RecommendedEvents";
+import FeaturedOrganizers from "../components/FeaturedOrganizers";
 import WhyBookWithUs from "../components/WhyBookWithUs";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer"; // Assuming Footer.jsx is in components/Footer/
@@ -199,7 +200,7 @@ const LandingPage = () => {
                 <div className="rounded-t-2xl md:rounded-none px-2 md:px-5 md:pt-10 pb-16 space-y-6 md:space-y-10">
                   <FeaturedEvents />
                   <PopularEvents />
-                  <RecommendedEvents />
+                  <FeaturedOrganizers />
                   <WhyBookWithUs />
                   <section
                     aria-label="Bottom Ads or Promotions"

@@ -9,7 +9,6 @@ export const ENDPOINTS = {
   // ========================
   ADD_EVENT: "/add-event",
   GET_EVENTS: "/get-event",
-  
   // ========================
   // CITIES
   // ========================

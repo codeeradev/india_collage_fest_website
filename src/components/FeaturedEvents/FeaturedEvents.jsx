@@ -1,35 +1,54 @@
-import EventCard from "./EventCard";
+import { useEffect, useState } from "react";
+import EventCard from "../PopularEvents/EventCard";
+import EventCardSkeleton from "../PopularEvents/EventCardSkeleton";
+import { get } from "../../api/apiClient";
+import { ENDPOINTS } from "../../api/endpoints";
 
-const events = [
-  { id: 1, title: "Music Night" },
-  { id: 2, title: "Startup Meetup" },
-  { id: 3, title: "Tech Conference" },
-  { id: 4, title: "Food Festival" },
-  { id: 5, title: "Art Exhibition" },
-  { id: 6, title: "Comedy Show" },
-];
+const FeaturedEvents = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const FeaturedEvents = () => (
-  <section className="pt-4 overflow-hidden" aria-label="Featured Events">
-    
-    {/* Header */}
-    <header className="pl-2 md:pl-0">
-      <h2 className="font-semibold text-lg md:text-3xl text-gray-800">
-        Featured Events ✨
-      </h2>
-      <p className="text-gray-600 text-sm md:text-base mt-1 md:mt-2">
-        Explore top events and unforgettable experiences
-      </p>
-    </header>
+  useEffect(() => {
+    fetchFeaturedEvents();
+  }, []);
 
-    {/* Events Grid */}
-    <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-      {events.map((event) => (
-        <EventCard key={event.id} event={event} />
-      ))}
-    </div>
+  const fetchFeaturedEvents = async () => {
+    try {
+      setLoading(true);
+      const res = await get(`${ENDPOINTS.GET_EVENTS}?featured=true`);
+      setEvents(res.data.events || []);
+    } catch (err) {
+      console.error("Featured events load failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  </section>
-);
+  return (
+    <section className="py-6">
+
+      {/* ===== HEADER ===== */}
+      <header className="mb-6">
+        <h2 className="text-xl md:text-3xl font-semibold text-gray-900">
+          Featured Events 🎉
+        </h2>
+        <p className="text-gray-600 text-sm md:text-base mt-1 md:mt-2">
+          Explore top events and unforgettable experiences
+        </p>
+      </header>
+
+      {/* ===== GRID ===== */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        {loading
+          ? [...Array(6)].map((_, i) => (
+              <EventCardSkeleton key={i} />
+            ))
+          : events.map((event) => (
+              <EventCard key={event._id} event={event} />
+            ))}
+      </div>
+    </section>
+  );
+};
 
 export default FeaturedEvents;

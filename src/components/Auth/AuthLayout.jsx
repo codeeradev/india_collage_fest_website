@@ -27,7 +27,7 @@ const AuthLayout = ({ children }) => {
           <ul className="space-y-5 text-lg">
             <li className="flex items-center gap-3">
               <span style={{ color: "#22c55e", fontSize: "20px" }}>✔</span>
-              Create event page
+              Create events
             </li>
             <li className="flex items-center gap-3">
               <span style={{ color: "#22c55e", fontSize: "20px" }}>✔</span>
