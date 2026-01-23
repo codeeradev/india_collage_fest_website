@@ -26,7 +26,7 @@ const LandingPage = () => {
           {/* Use your existing Header component */}
           <Header />
           {/* Mobile header bar */}
-          <div className="w-full hidden md:block z-40 bg-white/95 backdrop-blur-xl shadow-lg fixed top-20">
+          {/* <div className="w-full hidden md:block z-40 bg-white/95 backdrop-blur-xl shadow-lg fixed top-20">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-1">
               <div className="flex justify-between items-center">
                 <div className="flex">
@@ -92,8 +92,8 @@ const LandingPage = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-full md:hidden sticky top-20 z-40 h-10 bg-white/95 backdrop-blur-md border-b border-gray-200/60 transition-all duration-300">
+          </div> */}
+          {/* <div className="w-full md:hidden sticky top-20 z-40 h-10 bg-white/95 backdrop-blur-md border-b border-gray-200/60 transition-all duration-300">
             <div className="flex justify-center items-center px-2 pt-1 max-w-7xl mx-auto h-full">
               <nav className="flex gap-8">
                 <button className="relative flex flex-col items-center group">
@@ -164,8 +164,8 @@ const LandingPage = () => {
                 </button>
               </nav>
             </div>
-          </div>
-          <div className="pt-20">
+          </div> */}
+          {/* <div className="pt-20"> */}
             <div>
               <header>
                 <div className="mt-8 mb-3 mx-5">
@@ -417,7 +417,7 @@ const LandingPage = () => {
                 </div>
               </main>
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
       <Footer />

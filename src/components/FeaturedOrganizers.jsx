@@ -1,3 +1,7 @@
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import BecomeOrganizerModal from "./BecomeOrganizerModal.jsx";
+
 const organizers = [
   { name: "LEA360COMMUNITY", events: 1, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
   { name: "Medai Coimbatore", events: 6, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
@@ -48,6 +52,8 @@ const OrganizerCard = ({ org }) => (
 );
 
 const FeaturedOrganizers = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <section className="py-20 bg-[#fafafe]">
 
@@ -78,20 +84,14 @@ const FeaturedOrganizers = () => {
 
       {/* CTA */}
       <div className="flex justify-center mt-14">
-        <button
-          className="
-            px-8 py-3
-            rounded-full
-            border border-slate-300
-            bg-white
-            hover:bg-slate-50
-            font-medium
-            shadow-sm
-            transition
-          "
-        >
-          Become an Organizer
-        </button>
+<button
+  onClick={() => setOpen(true)}
+  className="px-8 py-3 rounded-full border bg-white"
+>
+  Become an Organizer
+</button>
+
+{open && <BecomeOrganizerModal onClose={() => setOpen(false)} />}
       </div>
 
     </section>

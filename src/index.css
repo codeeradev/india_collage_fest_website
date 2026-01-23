@@ -3,9 +3,16 @@
 @tailwind utilities;
 
 /* Custom styles from original */
-.embla { overflow: hidden; }
-.embla__container { display: flex; }
-.embla__slide { flex: 0 0 100%; min-width: 0; }
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+}
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
 
 @keyframes slide-in {
   from {
@@ -22,7 +29,8 @@
   animation: slide-in 0.4s ease-out;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
@@ -158,6 +166,71 @@ html, body {
 .publish-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 28px rgba(251, 95, 106, 0.35);
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 99999;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding: 100px 20px 40px;
+  overflow-y: auto;
+}
+
+.modal-box {
+  background: #fff;
+  width: 100%;
+  max-width: 420px;
+
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+
+  border-radius: 20px;
+  padding: 28px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+}
+
+.modal-box::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 22px;
+  letter-spacing: -0.3px;
+}
+
+.modal-btn {
+  width: 100%;
+  background: #4f46e5;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 14px;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.modal-btn:hover {
+  background: #4338ca;
+}
+
+.modal-cancel {
+  width: 100%;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
 }
 
 /* Add more as needed */

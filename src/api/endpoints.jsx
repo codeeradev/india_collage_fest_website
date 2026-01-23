@@ -1,5 +1,5 @@
-// export const API_BASE_URL = "http://localhost:7860";
-export const API_BASE_URL = "https://india-collage-fest-api.onrender.com/";
+export const API_BASE_URL = "http://localhost:7860";
+// export const API_BASE_URL = "https://india-collage-fest-api.onrender.com/";
 
 
 // All API endpoints in one place
@@ -22,6 +22,7 @@ export const ENDPOINTS = {
 
   LOGIN: "/login",
   VERIFY_OTP: "/verify-otp",
+  BECOME_A_ORGANISER: "/become-a-organiser",
 
   REGISTER: "/register",
 
