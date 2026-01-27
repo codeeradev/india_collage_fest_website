@@ -233,4 +233,37 @@ body {
   font-weight: 500;
 }
 
+@keyframes floatY {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes floatX {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(14px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.animate-float-y {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+.animate-float-x {
+  animation: floatX 8s ease-in-out infinite;
+}
+
+
 /* Add more as needed */

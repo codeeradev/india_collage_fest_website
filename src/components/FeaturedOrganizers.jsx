@@ -1,29 +1,32 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import BecomeOrganizerModal from "./BecomeOrganizerModal.jsx";
 
-const organizers = [
-  { name: "LEA360COMMUNITY", events: 1, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-  { name: "Medai Coimbatore", events: 6, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-  { name: "Unherd Music Community", events: 4, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-  { name: "Medai Bengaluru", events: 1, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-  { name: "MEDAI THE STAGE", events: 2, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-  { name: "VJ Eventz", events: 10, logo: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" },
-];
+import { get } from "../api/apiClient.jsx";
+import { ENDPOINTS } from "../api/endpoints.jsx";
+
+// ----------------------------------------------------------------------
+
+const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
+
+// ----------------------------------------------------------------------
 
 const OrganizerCard = ({ org }) => (
-  <div className="
-    bg-white
-    border border-slate-200
-    rounded-2xl
-    px-6 py-7
-    text-center
-    w-[260px]
-    hover:shadow-lg
-    transition
-  ">
+  <div
+    className="
+      bg-white
+      border border-slate-200
+      rounded-2xl
+      px-6 py-7
+      text-center
+      w-[260px]
+      hover:shadow-lg
+      transition
+    "
+  >
     <img
-      src={org.logo}
+      src={`${IMAGE_BASE_URL}${org.image}`}
       alt={org.name}
       className="w-20 h-20 mx-auto mb-5 rounded-xl object-contain"
     />
@@ -33,15 +36,17 @@ const OrganizerCard = ({ org }) => (
     </h3>
 
     <div className="flex justify-center mt-3">
-      <span className="
-        flex items-center gap-2
-        px-4 py-1.5
-        rounded-full
-        bg-slate-100
-        text-sm
-        text-slate-700
-      ">
-        {org.events} events
+      <span
+        className="
+          flex items-center gap-2
+          px-4 py-1.5
+          rounded-full
+          bg-slate-100
+          text-sm
+          text-slate-700
+        "
+      >
+        {org.totalEvents ?? 0} events
       </span>
     </div>
 
@@ -51,8 +56,39 @@ const OrganizerCard = ({ org }) => (
   </div>
 );
 
+// ----------------------------------------------------------------------
+
 const FeaturedOrganizers = () => {
+  const [organizers, setOrganizers] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // ===============================
+  // LOAD ORGANISERS
+  // ===============================
+  useEffect(() => {
+    const loadOrganisers = async () => {
+      try {
+        const res = await get(ENDPOINTS.GET_ORGANISER);
+
+        setOrganizers(res.data.organisers || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadOrganisers();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 text-center text-slate-500">
+        Loading organizers...
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 bg-[#fafafe]">
@@ -68,30 +104,23 @@ const FeaturedOrganizers = () => {
         </p>
       </div>
 
-      {/* ROW 1 */}
-      <div className="flex flex-wrap justify-center gap-8 mb-10">
-        {organizers.slice(0, 4).map((org, i) => (
-          <OrganizerCard key={i} org={org} />
-        ))}
-      </div>
-
-      {/* ROW 2 */}
-      <div className="flex flex-wrap justify-center gap-8">
-        {organizers.slice(4).map((org, i) => (
-          <OrganizerCard key={i} org={org} />
+      {/* ORGANIZERS */}
+      <div className="flex flex-wrap justify-center gap-8 mt-4">
+        {organizers.map((org) => (
+          <OrganizerCard key={org._id} org={org} />
         ))}
       </div>
 
       {/* CTA */}
       <div className="flex justify-center mt-14">
-<button
-  onClick={() => setOpen(true)}
-  className="px-8 py-3 rounded-full border bg-white"
->
-  Become an Organizer
-</button>
+        <button
+          onClick={() => setOpen(true)}
+          className="px-8 py-3 rounded-full border bg-white hover:bg-slate-50"
+        >
+          Become an Organizer
+        </button>
 
-{open && <BecomeOrganizerModal onClose={() => setOpen(false)} />}
+        {open && <BecomeOrganizerModal onClose={() => setOpen(false)} />}
       </div>
 
     </section>

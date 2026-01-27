@@ -26,4 +26,5 @@ export const ENDPOINTS = {
 
   REGISTER: "/register",
 
+  GET_ORGANISER: "/get-organiser",
 };
