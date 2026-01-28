@@ -5,23 +5,25 @@ import SearchBar from "./SearchBar";
 import CitySelectorModal from "./CitySelectorModal";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
+import { useCity } from "../../context/CityContext";
 
 const Header = () => {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [cityModalOpen, setCityModalOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const { city, setCity } = useCity();
+
   const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleCreateEvent = () => {
-  if (!user) {
-    navigate("/login");
-    return;
-  }
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-  navigate("/create-event");
-};
+    navigate("/create-event");
+  };
 
   return (
     <>
@@ -80,7 +82,7 @@ const Header = () => {
                   <path d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                {selectedCity ? selectedCity.name : "Select City"}
+                {city ? city.city : "Select City"}
               </button>
 
               <button
@@ -116,10 +118,13 @@ const Header = () => {
         </div>
       </header>
       <CitySelectorModal
-        open={cityModalOpen}
-        onClose={() => setCityModalOpen(false)}
-        onSelect={(city) => {
-          setSelectedCity(city);
+        open={!city || cityModalOpen}
+        onClose={() => {
+          if (!city) return; // cannot close if no city selected
+          setCityModalOpen(false);
+        }}
+        onSelect={(selectedCity) => {
+          setCity(selectedCity);
           setCityModalOpen(false);
         }}
       />

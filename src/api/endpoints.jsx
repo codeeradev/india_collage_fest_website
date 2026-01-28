@@ -23,8 +23,7 @@ export const ENDPOINTS = {
   LOGIN: "/login",
   VERIFY_OTP: "/verify-otp",
   BECOME_A_ORGANISER: "/become-a-organiser",
-
-  REGISTER: "/register",
-
   GET_ORGANISER: "/get-organiser",
+  GET_ORGANISER_EVENT: "/get-organiser-event",
+  REGISTER: "/register",
 };

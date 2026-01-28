@@ -125,7 +125,11 @@ const EventDetails = () => {
           <p className="text-sm text-slate-500">Ticket Price</p>
 
           <h3 className="text-3xl font-semibold mt-1 text-slate-900">
-            {event.ticket_price === "free" ? "FREE" : `₹${event.ticket_price}`}
+            {event.ticket_price
+              ? event.ticket_price === "free"
+                ? "FREE"
+                : `₹${event.ticket_price}`
+              : "FREE"}
           </h3>
 
           <div className="mt-5 space-y-3 text-sm text-slate-600">

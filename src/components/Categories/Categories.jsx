@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
+import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
+  const navigate = useNavigate();
 
   useEffect(() => {
     get(ENDPOINTS.GET_CATEGORIES)
@@ -20,7 +22,6 @@ const Categories = () => {
       <div className="relative max-w-7xl mx-auto px-4 md:px-6">
         {/* section card */}
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-sm border border-gray-100 px-6 py-8">
-
           {/* header */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
@@ -38,6 +39,7 @@ const Categories = () => {
             {categories.map((cat) => (
               <div
                 key={cat._id}
+                onClick={() => navigate(`/events?category=${cat._id}`)}
                 className="group min-w-[110px] text-center cursor-pointer transition-all"
               >
                 {/* icon */}
@@ -74,12 +76,11 @@ const Categories = () => {
                 </p>
 
                 <p className="text-xs text-gray-400">
-                  {cat.subCategoryCount} events
+                  {cat.eventCount} events
                 </p>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </section>

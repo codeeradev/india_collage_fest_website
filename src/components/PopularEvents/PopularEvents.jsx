@@ -3,25 +3,38 @@ import EventCard from "./EventCard";
 import EventCardSkeleton from "./EventCardSkeleton";
 import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
+import { useCity } from "../../context/CityContext";
+import EmptyState from "../EmptyState";
 
-const PopularEvents = ({ cityId }) => {
+const PopularEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const { city } = useCity();
 
   useEffect(() => {
+    if (!city) return;
+
     fetchEvents();
-  }, [cityId, filter]);
+  }, [city, filter]);
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
 
-      let url = ENDPOINTS.GET_EVENTS;
+      let url = ENDPOINTS.GET_EVENTS + "?";
 
-      if (cityId) url += `?cityId=${cityId}`;
-      if (filter === "week") url += cityId ? "&week=true" : "?week=true";
-      if (filter === "month") url += cityId ? "&month=true" : "?month=true";
+      if (city?._id) {
+        url += `cityId=${city._id}`;
+      }
+
+      if (filter === "week") {
+        url += "&week=true";
+      }
+
+      if (filter === "month") {
+        url += "&month=true";
+      }
 
       const res = await get(url);
       setEvents(res.data.events || []);
@@ -34,10 +47,8 @@ const PopularEvents = ({ cityId }) => {
 
   return (
     <section className="py-6">
-
       {/* ================= HEADER ================= */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-
         {/* LEFT */}
         <div>
           <h2 className="font-semibold text-2xl md:text-3xl text-gray-900">
@@ -81,6 +92,18 @@ const PopularEvents = ({ cityId }) => {
               <EventCardSkeleton key={i} />
             ))}
           </div>
+        ) : events.length === 0 ? (
+          <EmptyState
+            icon="🎉"
+            title="No events found"
+            description={
+              filter === "week"
+                ? "No events scheduled for this week."
+                : filter === "month"
+                  ? "No events available this month."
+                  : "No events available in this city right now."
+            }
+          />
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {events.map((event) => (

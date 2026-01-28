@@ -167,53 +167,56 @@ const LandingPage = () => {
             </div>
           </div> */}
           {/* <div className="pt-20"> */}
-            <div>
-              <header>
-                <div className="mt-8 mb-3 mx-5">
-                  <div className="w-full flex items-center bg-white px-4 py-2 md:hidden rounded-full border border-gray-300 shadow-sm">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-search w-5 h-5 text-gray-500 mr-2"
-                      aria-hidden="true"
-                    >
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search events, concerts, shows…"
-                      className="flex-1 outline-none text-gray-800 text-sm placeholder:text-gray-400"
-                      readOnly
-                    />
-                  </div>
-                </div>
-                <Hero />
-                <Categories />
-
-              </header>
-              <main className="md:mt-0 z-10 relative">
-                <div className="rounded-t-2xl md:rounded-none px-2 md:px-5 md:pt-10 pb-16 space-y-6 md:space-y-10">
-                  <FeaturedEvents />
-                  <PopularEvents />
-                  <FeaturedOrganizers />
-                  <WhyBookWithUs />
-                  <section
-                    aria-label="Bottom Ads or Promotions"
-                    className="pt-5"
+          <div>
+            <header>
+              <div className="mt-8 mb-3 mx-5">
+                <div className="w-full flex items-center bg-white px-4 py-2 md:hidden rounded-full border border-gray-300 shadow-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-search w-5 h-5 text-gray-500 mr-2"
+                    aria-hidden="true"
                   >
-                  </section>
-                  <Newsletter />
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search events, concerts, shows…"
+                    className="flex-1 outline-none text-gray-800 text-sm placeholder:text-gray-400"
+                    readOnly
+                  />
                 </div>
-              </main>
-            </div>
+              </div>
+              <Hero />
+
+              <section className="bg-white border-b">
+                <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+                  <Categories />
+                </div>
+              </section>
+            </header>
+            <main className="relative z-10">
+              <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 space-y-24">
+                <FeaturedEvents />
+
+                <PopularEvents />
+
+                <FeaturedOrganizers />
+
+                <WhyBookWithUs />
+
+                <Newsletter />
+              </div>
+            </main>
+          </div>
           {/* </div> */}
         </div>
       </div>

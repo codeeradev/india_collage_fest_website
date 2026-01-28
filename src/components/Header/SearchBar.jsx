@@ -1,4 +1,26 @@
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+
 const SearchBar = () => {
+  const [value, setValue] = useState("");
+  const navigate = useNavigate();
+  const typingRef = useRef(false);
+
+  useEffect(() => {
+    // 🔒 block auto redirect on first render
+    if (!typingRef.current) return;
+
+    const timer = setTimeout(() => {
+      if (value.trim()) {
+        navigate(`/events?search=${encodeURIComponent(value)}`);
+      } else {
+        navigate("/events");
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [value]);
+
   return (
     <div
       className="
@@ -26,7 +48,11 @@ const SearchBar = () => {
       </svg>
 
       <input
-        type="text"
+        value={value}
+        onChange={(e) => {
+          typingRef.current = true;
+          setValue(e.target.value);
+        }}
         placeholder="Search for any event"
         className="
           w-full bg-transparent

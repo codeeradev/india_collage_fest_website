@@ -5,6 +5,7 @@ import BecomeOrganizerModal from "./BecomeOrganizerModal.jsx";
 
 import { get } from "../api/apiClient.jsx";
 import { ENDPOINTS } from "../api/endpoints.jsx";
+import { useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -12,8 +13,9 @@ const IMAGE_BASE_URL = import.meta.env.VITE_IMAGE_URL;
 
 // ----------------------------------------------------------------------
 
-const OrganizerCard = ({ org }) => (
+const OrganizerCard = ({ org, onClick }) => (
   <div
+    onClick={onClick}
     className="
       bg-white
       border border-slate-200
@@ -46,13 +48,11 @@ const OrganizerCard = ({ org }) => (
           text-slate-700
         "
       >
-        {org.totalEvents ?? 0} events
+        {org.events ?? 0} events
       </span>
     </div>
 
-    <div className="mt-5 text-sm text-slate-400">
-      Click to explore events →
-    </div>
+    <div className="mt-5 text-sm text-slate-400">Click to explore events →</div>
   </div>
 );
 
@@ -62,6 +62,8 @@ const FeaturedOrganizers = () => {
   const [organizers, setOrganizers] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   // ===============================
   // LOAD ORGANISERS
@@ -92,7 +94,6 @@ const FeaturedOrganizers = () => {
 
   return (
     <section className="py-20 bg-[#fafafe]">
-
       {/* HEADER */}
       <div className="text-center mb-14">
         <h2 className="text-3xl font-semibold text-slate-900">
@@ -107,7 +108,11 @@ const FeaturedOrganizers = () => {
       {/* ORGANIZERS */}
       <div className="flex flex-wrap justify-center gap-8 mt-4">
         {organizers.map((org) => (
-          <OrganizerCard key={org._id} org={org} />
+          <OrganizerCard
+            key={org._id}
+            org={org}
+            onClick={() => navigate(`/organiser/${org._id}`)}
+          />
         ))}
       </div>
 
@@ -122,7 +127,6 @@ const FeaturedOrganizers = () => {
 
         {open && <BecomeOrganizerModal onClose={() => setOpen(false)} />}
       </div>
-
     </section>
   );
 };
