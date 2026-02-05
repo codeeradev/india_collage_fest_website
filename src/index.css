@@ -265,5 +265,20 @@ body {
   animation: floatX 8s ease-in-out infinite;
 }
 
+/* Gradient render fix for Chromium stacking contexts */
+.bg-gradient-fix {
+  background-image: linear-gradient(135deg,#4f46e5,#4338ca);
+}
+
+.bg-gradient-main {
+  background-image: linear-gradient(90deg,#f97316,#ec4899,#8b5cf6);
+}
+
+.gradient-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 
 /* Add more as needed */
