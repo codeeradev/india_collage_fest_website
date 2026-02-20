@@ -3,44 +3,27 @@
 const EmptyState = ({
   title = "Nothing here yet",
   description = "Content will appear here once available.",
-  icon = "🎫",
+  icon = null,
 }) => {
   return (
-    <div className="relative mt-24 flex flex-col items-center text-center overflow-hidden">
+    <div className="relative mt-16 flex flex-col items-center overflow-hidden text-center">
+      <div className="absolute -top-32 h-[420px] w-[420px] rounded-full bg-gradient-to-r from-blue-200/40 via-cyan-200/35 to-amber-100/35 blur-3xl" />
 
-      {/* animated glow background */}
-      <div
-        className="absolute -top-40 w-[520px] h-[520px]
-        bg-gradient-to-r from-indigo-300/30 via-purple-300/30 to-pink-300/30
-        rounded-full blur-3xl animate-pulse"
-      />
-
-      {/* floating icon */}
-      <div className="relative mb-6 animate-float-y">
-        <div
-          className="w-24 h-24 rounded-2xl
-          bg-gradient-to-br from-indigo-500 to-purple-600
-          flex items-center justify-center
-          shadow-xl"
-        >
-          <span className="text-4xl">{icon}</span>
-        </div>
+      <div className="relative mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-700 to-cyan-500 shadow-xl shadow-blue-500/25 animate-float-y">
+        {icon ? (
+          <span className="text-3xl">{icon}</span>
+        ) : (
+          <svg className="h-9 w-9 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h8m-8 4h5m-8 4h12a2 2 0 002-2V6a2 2 0 00-2-2H9l-4 4v10a2 2 0 002 2z" />
+          </svg>
+        )}
       </div>
 
-      {/* text */}
-      <h3 className="text-lg md:text-xl font-semibold text-gray-900">
-        {title}
-      </h3>
+      <h3 className="text-lg md:text-xl font-semibold text-slate-900">{title}</h3>
 
-      <p className="mt-2 text-gray-500 text-sm max-w-md leading-relaxed">
-        {description}
-      </p>
+      <p className="mt-2 max-w-md text-sm leading-relaxed text-slate-500">{description}</p>
 
-      {/* divider */}
-      <div
-        className="mt-6 w-24 h-[2px]
-        bg-gradient-to-r from-transparent via-gray-300 to-transparent"
-      />
+      <div className="mt-6 h-[2px] w-28 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
     </div>
   );
 };

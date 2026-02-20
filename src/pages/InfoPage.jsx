@@ -1,7 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
-const CONTAINER = "max-w-5xl mx-auto px-6 py-12 md:py-20";
+const SHELL = "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8";
 
 const contentMap = {
   terms: {
@@ -11,7 +13,7 @@ const contentMap = {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
-    gradient: "from-blue-500 to-cyan-500",
+    gradient: "from-blue-600 to-sky-500",
     sections: [
       {
         heading: "Welcome to India College Fest",
@@ -43,7 +45,7 @@ const contentMap = {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
       </svg>
     ),
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-blue-600 to-indigo-500",
     sections: [
       {
         heading: "Your Privacy Matters",
@@ -75,7 +77,7 @@ const contentMap = {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    gradient: "from-orange-500 to-pink-500",
+    gradient: "from-blue-600 to-blue-500",
     sections: [
       {
         heading: "Welcome to India College Fest",
@@ -107,7 +109,7 @@ const contentMap = {
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    gradient: "from-green-500 to-teal-500",
+    gradient: "from-blue-600 to-cyan-500",
     contacts: [
       {
         type: "Email",
@@ -159,7 +161,7 @@ const contentMap = {
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
           </svg>
         ),
-        href: "#"
+        href: "https://www.facebook.com/theticket9"
       },
       {
         name: "Twitter",
@@ -169,7 +171,7 @@ const contentMap = {
             <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
           </svg>
         ),
-        href: "#"
+        href: "https://twitter.com/theticket9"
       },
       {
         name: "Instagram",
@@ -179,7 +181,7 @@ const contentMap = {
             <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
           </svg>
         ),
-        href: "#"
+        href: "https://www.instagram.com/the_ticket_9/"
       },
       {
         name: "YouTube",
@@ -189,7 +191,7 @@ const contentMap = {
             <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
           </svg>
         ),
-        href: "#"
+        href: "https://www.youtube.com"
       }
     ],
     sections: [
@@ -221,195 +223,185 @@ export default function InfoPage() {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="w-20 h-20 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
-            <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
+        <Header />
+        <main className="pt-28 pb-20">
+          <div className={SHELL}>
+            <div className="mx-auto max-w-2xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-[0_20px_60px_-38px_rgba(15,23,42,0.45)] md:p-12">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
+                <svg className="h-10 w-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+
+              <h2 className="mt-5 text-2xl font-semibold text-slate-900">Page Not Found</h2>
+              <p className="mt-2 text-slate-600">The page you are looking for does not exist.</p>
+
+              <button
+                onClick={() => navigate("/")}
+                className="mt-6 rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                Go Home
+              </button>
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">Page Not Found</h2>
-          <p className="text-gray-600">The page you're looking for doesn't exist.</p>
-          <button
-            onClick={() => navigate("/")}
-            className="mt-4 px-6 py-3 bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white rounded-full font-semibold hover:shadow-lg transition-all"
-          >
-            Go Home
-          </button>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen">
-      <div className={CONTAINER}>
-        {/* Header Section */}
-        <div className="mb-12">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <button onClick={() => navigate("/")} className="hover:text-purple-600 transition-colors">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
+      <Header />
+
+      <main className="relative overflow-hidden pt-28 pb-20">
+        <div className="pointer-events-none absolute -top-32 left-[-8rem] h-72 w-72 rounded-full bg-blue-200/45 blur-3xl" />
+        <div className="pointer-events-none absolute top-44 right-[-9rem] h-72 w-72 rounded-full bg-cyan-200/35 blur-3xl" />
+
+        <div className={`${SHELL} relative z-10`}>
+          <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
+            <button onClick={() => navigate("/")} className="transition-colors hover:text-blue-700">
               Home
             </button>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-            <span className="text-gray-900 font-medium">{content.title}</span>
+            <span className="font-semibold text-slate-800">{content.title}</span>
           </nav>
 
-          {/* Title Card */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-white to-gray-50 border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm">
-            {/* Decorative gradient */}
-            <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${content.gradient} opacity-5 rounded-full blur-3xl`} />
-            
-            <div className="relative z-10 flex items-center gap-6">
-              <div className={`hidden md:flex w-16 h-16 rounded-2xl bg-gradient-to-br ${content.gradient} items-center justify-center text-white shadow-lg`}>
+          <section className="relative overflow-hidden rounded-[32px] border border-slate-200/80 bg-white/95 p-8 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.45)] md:p-10">
+            <div className={`pointer-events-none absolute -top-16 right-[-4rem] h-56 w-56 rounded-full bg-gradient-to-br ${content.gradient} opacity-20 blur-3xl`} />
+
+            <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center">
+              <div className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${content.gradient} text-white shadow-lg`}>
                 {content.icon}
               </div>
-              
+
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
-                  {content.title}
-                </h1>
-                <p className="text-gray-600">
-                  Last updated: February 2026
-                </p>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Policy and Information</p>
+                <h1 className="mt-2 text-3xl font-semibold text-slate-900 md:text-5xl">{content.title}</h1>
+                <p className="mt-2 text-sm text-slate-600">Last updated: February 19, 2026</p>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        {/* Content Section */}
-        <div className="bg-white border border-gray-200 rounded-3xl shadow-sm overflow-hidden">
-          <div className="p-8 md:p-12 space-y-10">
-            {/* Regular sections */}
-            {content.sections?.map((section, index) => (
-              <div
-                key={index}
-                className="group"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br ${content.gradient} opacity-10 group-hover:opacity-20 transition-opacity flex items-center justify-center`}>
-                    <span className={`text-lg font-bold bg-gradient-to-br ${content.gradient} bg-clip-text text-transparent`}>
+          <section className="mt-8 overflow-hidden rounded-[32px] border border-slate-200/80 bg-white/95 shadow-[0_24px_60px_-42px_rgba(15,23,42,0.45)]">
+            <div className="space-y-8 p-6 md:p-10">
+              {content.sections?.map((section, index) => (
+                <article
+                  key={index}
+                  style={{ animationDelay: `${index * 70}ms` }}
+                  className="animate-enter-up rounded-2xl border border-slate-200/80 bg-white p-5 md:p-6"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${content.gradient} text-sm font-semibold text-white`}>
                       {index + 1}
-                    </span>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                      {section.heading}
-                    </h2>
-                    <p className="text-gray-700 text-lg leading-relaxed">
-                      {section.content}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                    </div>
 
-            {/* Contact-specific content */}
-            {page === 'contact' && content.contacts && (
-              <>
-                <div className="border-t border-gray-200 pt-10">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
-                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <h2 className="text-xl font-semibold text-slate-900 md:text-2xl">{section.heading}</h2>
+                      <p className="mt-2 text-[15px] leading-relaxed text-slate-700 md:text-base">{section.content}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+
+              {page === "contact" && content.contacts && (
+                <section className="border-t border-slate-200 pt-8">
+                  <h2 className="text-2xl font-semibold text-slate-900">Contact Information</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
                     {content.contacts.map((contact, index) => (
                       <a
                         key={index}
                         href={contact.href}
-                        target={contact.href.startsWith('http') ? '_blank' : undefined}
-                        rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                        className="group flex items-center gap-4 p-5 bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-purple-300 rounded-xl transition-all hover:shadow-md"
+                        target={contact.href.startsWith("http") ? "_blank" : undefined}
+                        rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                        className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-md"
                       >
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${content.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                        <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${content.gradient} text-white shadow-md`}>
                           {contact.icon}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold text-gray-600 mb-1">{contact.type}</p>
-                          <p className="text-gray-900 font-medium truncate">{contact.value}</p>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{contact.type}</p>
+                          <p className="truncate text-sm font-medium text-slate-900">{contact.value}</p>
                         </div>
-                        <svg className="w-5 h-5 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-4 w-4 text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </a>
                     ))}
                   </div>
-                </div>
+                </section>
+              )}
 
-                <div className="border-t border-gray-200 pt-10">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Follow Us on Social Media</h2>
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {page === "contact" && content.social && (
+                <section className="border-t border-slate-200 pt-8">
+                  <h2 className="text-2xl font-semibold text-slate-900">Follow Us</h2>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                     {content.social.map((social, index) => (
                       <a
                         key={index}
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-3 p-5 bg-gray-50 hover:bg-gradient-to-br hover:from-orange-50 hover:via-pink-50 hover:to-purple-50 border border-gray-200 hover:border-purple-300 rounded-xl transition-all hover:shadow-md"
+                        className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-md"
                       >
-                        <div className="w-10 h-10 rounded-full bg-white border border-gray-200 group-hover:border-purple-300 flex items-center justify-center text-gray-700 group-hover:text-purple-600 transition-all">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition-colors group-hover:border-blue-300 group-hover:text-blue-600">
                           {social.icon}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-sm">{social.name}</p>
-                          <p className="text-xs text-gray-600 truncate">@{social.handle}</p>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-slate-900">{social.name}</p>
+                          <p className="truncate text-xs text-slate-500">@{social.handle}</p>
                         </div>
                       </a>
                     ))}
                   </div>
-                </div>
-              </>
-            )}
-          </div>
+                </section>
+              )}
+            </div>
 
-          {/* Bottom CTA */}
-          <div className={`bg-gradient-to-r ${content.gradient} p-8 md:p-10`}>
-            <div className="text-center text-white space-y-4">
-              <h3 className="text-2xl font-bold">
-                {page === 'contact' ? 'Ready to Get Started?' : 'Have Questions?'}
+            <div className={`bg-gradient-to-r ${content.gradient} px-6 py-8 text-center text-white md:px-10 md:py-10`}>
+              <h3 className="text-2xl font-semibold">
+                {page === "contact" ? "Ready to Get Started?" : "Need Support?"}
               </h3>
-              <p className="text-white/90 max-w-2xl mx-auto">
-                {page === 'contact' 
-                  ? "We're here to help you discover amazing events and create unforgettable experiences."
-                  : "If you have any questions or need clarification, feel free to reach out to us."
-                }
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-white/90 md:text-base">
+                {page === "contact"
+                  ? "We are here to help you discover events and create better experiences."
+                  : "Reach out to our team for any questions about policies, account usage, or platform support."}
               </p>
               <button
-                onClick={() => navigate(page === 'contact' ? '/events' : '/info/contact')}
-                className="mt-4 px-8 py-3 bg-white text-gray-900 rounded-full font-semibold hover:shadow-lg transition-all hover:scale-105 active:scale-95"
+                onClick={() => navigate(page === "contact" ? "/events" : "/info/contact")}
+                className="mt-5 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
               >
-                {page === 'contact' ? 'Explore Events' : 'Contact Us'}
+                {page === "contact" ? "Explore Events" : "Contact Us"}
               </button>
             </div>
-          </div>
-        </div>
+          </section>
 
-        {/* Related Links */}
-        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {Object.keys(contentMap)
-            .filter(key => key !== page)
-            .map((key) => (
-              <button
-                key={key}
-                onClick={() => navigate(`/info/${key}`)}
-                className="group p-6 bg-white border border-gray-200 hover:border-purple-300 rounded-2xl transition-all hover:shadow-md text-left"
-              >
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${contentMap[key].gradient} opacity-10 group-hover:opacity-20 transition-opacity mb-4 flex items-center justify-center`}>
-                  <div className="text-gray-700">
+          <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {Object.keys(contentMap)
+              .filter((key) => key !== page)
+              .map((key) => (
+                <button
+                  key={key}
+                  onClick={() => navigate(`/info/${key}`)}
+                  className="group rounded-2xl border border-slate-200 bg-white p-5 text-left transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
+                >
+                  <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${contentMap[key].gradient} text-white shadow-sm`}>
                     {contentMap[key].icon}
                   </div>
-                </div>
-                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                  {contentMap[key].title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Learn more →
-                </p>
-              </button>
-            ))}
+                  <h3 className="text-base font-semibold text-slate-900 transition-colors group-hover:text-blue-700">
+                    {contentMap[key].title}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-600">Learn more -&gt;</p>
+                </button>
+              ))}
+          </section>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }
+

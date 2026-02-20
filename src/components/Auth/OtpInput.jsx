@@ -6,7 +6,7 @@ const OtpInput = ({ value, onChange }) => {
       value={value}
       onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
       placeholder="Enter 6-digit OTP"
-      className="w-full text-center tracking-[0.6em] text-xl border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-rose-400 outline-none"
+      className="w-full text-center tracking-[0.6em] text-xl border border-slate-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-300 outline-none"
     />
   );
 };

@@ -1,6 +1,18 @@
-export const API_BASE_URL = "http://localhost:3001";
-// export const API_BASE_URL = "https://india-collage-fest-api.onrender.com/";
-// export const API_BASE_URL = "http://172.93.223.239:3001/"
+const DEFAULT_API_BASE_URL = "http://172.93.223.239:3001";
+const envApiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
+const isLocalApiUrl = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(envApiBaseUrl);
+const isRunningLocally =
+  typeof window !== "undefined" && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+
+const resolvedApiBaseUrl =
+  envApiBaseUrl && (!isLocalApiUrl || isRunningLocally)
+    ? envApiBaseUrl
+    : DEFAULT_API_BASE_URL;
+
+export const API_BASE_URL = (
+  resolvedApiBaseUrl
+).replace(/\/+$/, "");
 
 // All API endpoints in one place
 export const ENDPOINTS = {
@@ -29,5 +41,11 @@ export const ENDPOINTS = {
 
   GET_PROFILE: "/get-user-profile",
   UPDATE_PROFILE: "/update-user-profile",
+  GET_USER_EVENTS: "/user/events",
+  EDIT_USER_EVENT: "/user/edit-event",
+  TRACK_VISIT: "/track-visit",
+
+  GET_BLOGS: "/blogs",
+  GET_BLOG_BY_SLUG: "/blogs",
 
 };

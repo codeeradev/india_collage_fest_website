@@ -1,43 +1,79 @@
-const EventFilters = () => {
+const FILTERS = [
+  {
+    value: "all",
+    label: "All Events",
+    description: "Everything happening",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+      </svg>
+    ),
+  },
+  {
+    value: "week",
+    label: "This Week",
+    description: "Next 7 days",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    ),
+  },
+  {
+    value: "month",
+    label: "This Month",
+    description: "Upcoming highlights",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+];
+
+const EventFilters = ({ filter, setFilter }) => {
   return (
-    <div className="flex flex-wrap px-5 md:px-0 lg:flex-nowrap justify-start items-start w-full">
-      <div className="mb-8 lg:mb-11">
-        <div>
-          <div className="flex relative" data-headlessui-state="">
-            <div className="flex-1 z-[8] md:z-10 flex items-center focus:outline-none">
-              <button
-                className="flex items-center justify-start lg:justify-between lg:px-6 md:px-6 px-32 py-2 text-sm rounded-full border border-neutral-300 hover:border-neutral-400 focus:outline-none"
-                type="button"
-                aria-expanded="false"
-                data-headlessui-state=""
-              >
-                <div className="flex px-9 justify-between items-center">
-                  <span>All</span>
-                  <i className="las la-angle-down ml-2"></i>
-                </div>
-                <div></div>
-              </button>
-            </div>
-          </div>
-          <span hidden="" style={{ position: 'fixed', top: '1px', left: '1px', width: '1px', height: '0', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', borderWidth: '0', display: 'none' }}></span>
+    <div className="w-full">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur px-4 py-4 md:px-6 md:py-5 shadow-[0_14px_40px_-30px_rgba(15,23,42,0.35)]">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">
+            Filter Events
+          </p>
+          <p className="text-sm text-slate-500">
+            Choose a time window that matches your plans
+          </p>
         </div>
-      </div>
-      <div className="flex justify-between overflow-hidden lg:w-full pl-2">
-        <div className="swiper mySwiper h-fit text-black select-none py-5 lg:w-full">
-          <div className="swiper-wrapper">
-            <div className="swiper-slide select-none inline-block text-center cursor-pointer rounded-full px-2 lg:px-3 py-2 text-white bg-gradient-to-r from-[#FF9650] to-[#FB426E]">
-              <i className="las la-list-ul"></i> All
-            </div>
-            <div className="swiper-slide select-none inline-block text-center cursor-pointer rounded-full px-2 lg:px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-200 ease-in-out">
-              <i className="las la-calendar-plus"></i> Tomorrow
-            </div>
-            <div className="swiper-slide select-none inline-block text-center cursor-pointer rounded-full px-2 lg:px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-200 ease-in-out">
-              <i className="las la-hourglass-half"></i> This Week
-            </div>
-            <div className="swiper-slide select-none inline-block text-center cursor-pointer rounded-full px-2 lg:px-3 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition duration-200 ease-in-out">
-              <i className="las la-calendar"></i> This Month
-            </div>
-          </div>
+
+        <div className="flex flex-wrap gap-3">
+          {FILTERS.map((item) => {
+            const isActive = filter === item.value;
+            return (
+              <button
+                key={item.value}
+                type="button"
+                onClick={() => setFilter(item.value)}
+                className={`group relative flex items-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-semibold transition-all duration-300
+                  ${
+                    isActive
+                      ? "border-transparent bg-blue-600 text-white shadow-lg shadow-blue-200"
+                      : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                  }
+                `}
+              >
+                <span className={`transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`}>
+                  {item.icon}
+                </span>
+                <span>{item.label}</span>
+
+                {isActive && (
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

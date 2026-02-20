@@ -8,8 +8,9 @@ import Footer from "../components/Footer";
 import Header from "../components/Header/Header";
 import BannerCropper from "../components/createEvent/BannerCropper";
 import MapPicker from "../components/createEvent/MapPicker";
+import TurnstileCaptcha from "../components/Captcha/TurnstileCaptcha";
 
-/* ─── SVG Icons (inline, zero deps) ─── */
+/* Section */
 const IconUpload = () => (
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
     <circle cx="20" cy="20" r="20" fill="#f1f5f9" />
@@ -105,7 +106,7 @@ const IconDollar = () => (
   </svg>
 );
 
-/* ─── Tiny helpers ─── */
+/* Section */
 const Section = ({ icon: Icon, title, children, style }) => (
   <div
     style={{
@@ -127,7 +128,7 @@ const Section = ({ icon: Icon, title, children, style }) => (
         borderBottom: "1px solid #e2e8f0",
       }}
     >
-      <span style={{ color: "#6366f1", display: "flex" }}>
+      <span style={{ color: "#2563eb", display: "flex" }}>
         <Icon />
       </span>
       <span
@@ -182,20 +183,26 @@ const inputBase = {
 };
 
 const focusStyle = {
-  borderColor: "#6366f1",
-  boxShadow: "0 0 0 3px rgba(99,102,241,0.15)",
+  borderColor: "#2563eb",
+  boxShadow: "0 0 0 3px rgba(37,99,235,0.14)",
   background: "#fff",
 };
 
-/* ─── Wrapper that attaches focus/blur handlers ─── */
-const StyledInput = ({ style: extraStyle, ...props }) => {
+/* Section */
+const StyledInput = ({ style: extraStyle, onFocus, onBlur, ...props }) => {
   const [focused, setFocused] = useState(false);
   return (
     <input
       {...props}
       style={{ ...inputBase, ...(focused ? focusStyle : {}), ...extraStyle }}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
+      onFocus={(e) => {
+        setFocused(true);
+        if (onFocus) onFocus(e);
+      }}
+      onBlur={(e) => {
+        setFocused(false);
+        if (onBlur) onBlur(e);
+      }}
     />
   );
 };
@@ -243,7 +250,7 @@ const StyledTextarea = ({ style: extraStyle, ...props }) => {
   );
 };
 
-/* ─── Icon prefix wrapper for inputs ─── */
+/* Section */
 const InputWithIcon = ({ icon: Icon, children }) => (
   <div style={{ position: "relative" }}>
     <span
@@ -269,9 +276,9 @@ const InputWithIcon = ({ icon: Icon, children }) => (
   </div>
 );
 
-/* ─── Main Page ─── */
+/* Section */
 const CreateEvent = () => {
-  /* ───── STATE (unchanged) ───── */
+  /* Section */
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -299,10 +306,22 @@ const CreateEvent = () => {
   const [showCropper, setShowCropper] = useState(false);
 
   const [coords, setCoords] = useState(null);
+  const [addressResults, setAddressResults] = useState([]);
+  const [addressLoading, setAddressLoading] = useState(false);
+  const [showAddressResults, setShowAddressResults] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   const navigate = useNavigate();
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  const captchaEnabled = Boolean(turnstileSiteKey);
 
-  /* ───── FETCH INITIAL DATA (unchanged) ───── */
+  const resetCaptcha = () => {
+    setCaptchaToken("");
+    setCaptchaKey((key) => key + 1);
+  };
+
+  /* Section */
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -319,7 +338,7 @@ const CreateEvent = () => {
     fetchInitialData();
   }, []);
 
-  /* ───── HANDLERS (unchanged) ───── */
+  /* Section */
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -344,10 +363,79 @@ const CreateEvent = () => {
     }
   };
 
-  /* ───── SUBMIT (unchanged) ───── */
+  /* Section */
+  useEffect(() => {
+    const query = form.address?.trim();
+    if (!query || query.length < 3) {
+      setAddressResults([]);
+      setShowAddressResults(false);
+      return;
+    }
+
+    const cityObj = cities.find((c) => c._id === form.location);
+    const cityName = cityObj?.city?.trim();
+
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        setAddressLoading(true);
+        const q = cityName ? `${query}, ${cityName}, India` : query;
+        const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5&countrycodes=in&q=${encodeURIComponent(
+          q,
+        )}`;
+        const res = await fetch(url, {
+          signal: controller.signal,
+          headers: { "Accept-Language": "en" },
+        });
+        if (!res.ok) throw new Error("Failed to fetch address suggestions");
+        const data = await res.json();
+
+        let results = Array.isArray(data) ? data : [];
+        if (cityName) {
+          const cityLower = cityName.toLowerCase();
+          results = results.filter((item) => {
+            const addr = item.address || {};
+            const cityCandidate =
+              addr.city ||
+              addr.town ||
+              addr.village ||
+              addr.municipality ||
+              addr.city_district ||
+              "";
+            const display = (item.display_name || "").toLowerCase();
+            return (
+              cityCandidate.toLowerCase() === cityLower ||
+              display.includes(cityLower)
+            );
+          });
+        }
+
+        setAddressResults(results);
+        setShowAddressResults(true);
+      } catch (err) {
+        if (err?.name !== "AbortError") {
+          setAddressResults([]);
+          setShowAddressResults(false);
+        }
+      } finally {
+        setAddressLoading(false);
+      }
+    }, 350);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [form.address, form.location, cities]);
+
+  /* Section */
   const submitEvent = async () => {
     if (!form.title || !form.category || !form.location) {
       showAlert("warning", "Please fill required fields");
+      return;
+    }
+    if (captchaEnabled && !captchaToken) {
+      showAlert("warning", "Please complete the captcha");
       return;
     }
     try {
@@ -358,6 +446,9 @@ const CreateEvent = () => {
         visibility: form.visibility === "public",
         address: form.eventMode === "offline" ? form.address : "",
       };
+      if (captchaEnabled) {
+        payload["cf-turnstile-response"] = captchaToken;
+      }
       const formData = new FormData();
       Object.entries(payload).forEach(([key, value]) => {
         formData.append(key, value ?? "");
@@ -388,19 +479,16 @@ const CreateEvent = () => {
       setSubCategories([]);
     } catch {
       showAlert("error", "Something went wrong while creating event");
+    } finally {
+      if (captchaEnabled) resetCaptcha();
     }
   };
 
-  /* ───── UI ───── */
+  /* Section */
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
-
-        * { box-sizing: border-box; }
-
-        body, #root { font-family: 'DM Sans', sans-serif; }
-
+                * { box-sizing: border-box; }
         html, body {
   overflow-x: hidden;
 }
@@ -435,27 +523,28 @@ const CreateEvent = () => {
         .ce-section { animation: sectionUp 0.4s cubic-bezier(.22,1,.36,1) both; }
 
         /* banner hover glow */
-        .ce-banner-wrap:hover { border-color: #a5b4fc !important; }
-        .ce-banner-wrap:hover .ce-banner-hint { color: #6366f1 !important; }
+        .ce-banner-wrap:hover { border-color: #93c5fd !important; }
+        .ce-banner-wrap:hover .ce-banner-hint { color: #2563eb !important; }
 
         /* publish btn hover */
-        .ce-publish:hover { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important; box-shadow: 0 6px 24px rgba(99,102,241,0.4) !important; transform: translateY(-1px); }
-        .ce-publish:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(99,102,241,0.3) !important; }
+        .ce-publish:hover { background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%) !important; box-shadow: 0 6px 24px rgba(37,99,235,0.35) !important; transform: translateY(-1px); }
+        .ce-publish:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(37,99,235,0.28) !important; }
 
         /* toggle pill */
         .ce-pill { display: inline-flex; background: #f1f5f9; border-radius: 8px; padding: 3px; gap: 2px; }
         .ce-pill button { border: none; background: transparent; padding: "6px 16px"; border-radius: 6px; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; transition: all 0.2s; font-family: inherit; padding: 6px 18px; }
-        .ce-pill button.active { background: #fff; color: #6366f1; box-shadow: 0 1px 4px rgba(0,0,0,0.1); font-weight: 600; }
+        .ce-pill button.active { background: #fff; color: #2563eb; box-shadow: 0 1px 4px rgba(0,0,0,0.1); font-weight: 600; }
         .ce-pill button:hover:not(.active) { color: #334155; }
 
         /* mode badge row */
         .ce-mode-row { display: flex; gap: 8px; flex-wrap: wrap; }
         .ce-mode-card { flex: 1 1 100px; min-width: 100px; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 14px 12px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; }
-        .ce-mode-card:hover { border-color: #a5b4fc; background: #eef2ff; }
-        .ce-mode-card.active { border-color: #6366f1; background: linear-gradient(135deg, #eef2ff, #f5f3ff); box-shadow: 0 2px 12px rgba(99,102,241,0.15); }
-        .ce-mode-card .mode-icon { font-size: 22px; margin-bottom: 4px; }
+        .ce-mode-card:hover { border-color: #93c5fd; background: #eff6ff; }
+        .ce-mode-card.active { border-color: #2563eb; background: linear-gradient(135deg, #eff6ff, #ecfeff); box-shadow: 0 2px 12px rgba(37,99,235,0.14); }
+        .ce-mode-card .mode-icon { margin: 0 auto 6px; height: 30px; width: 30px; border-radius: 999px; background: #e2e8f0; color: #334155; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; }
+        .ce-mode-card.active .mode-icon { background: #dbeafe; color: #1d4ed8; }
         .ce-mode-card .mode-label { font-size: 13px; font-weight: 600; color: #334155; }
-        .ce-mode-card.active .mode-label { color: #6366f1; }
+        .ce-mode-card.active .mode-label { color: #2563eb; }
       `}</style>
 
       <div
@@ -479,7 +568,7 @@ const CreateEvent = () => {
             height: 360,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
@@ -493,7 +582,7 @@ const CreateEvent = () => {
             height: 300,
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)",
+              "radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
@@ -510,7 +599,7 @@ const CreateEvent = () => {
         >
           <Header />
 
-          {/* ── Page Title ── */}
+          {/* Section */}
           <div style={{ marginBottom: 28 }}>
             <h1
               style={{
@@ -535,7 +624,7 @@ const CreateEvent = () => {
             </p>
           </div>
 
-          {/* ── Cropper overlay (unchanged logic) ── */}
+          {/* Section */}
           {showCropper && (
             <BannerCropper
               file={rawImage}
@@ -548,9 +637,9 @@ const CreateEvent = () => {
             />
           )}
 
-          {/* ═══════════ FORM SECTIONS ═══════════ */}
+          {/* Section */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {/* ── 1. Event Information ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.05s" }}>
               <Section icon={IconTag} title="Event Information">
                 <Field label="Event Title">
@@ -567,7 +656,7 @@ const CreateEvent = () => {
                     name="description"
                     value={form.description}
                     onChange={handleChange}
-                    placeholder="Describe your event — what attendees can expect…"
+                    placeholder="Describe your event and what attendees can expect."
                     rows={3}
                   />
                 </Field>
@@ -617,7 +706,7 @@ const CreateEvent = () => {
                           Click to upload event banner
                         </p>
                         <span style={{ fontSize: 12, color: "#94a3b8" }}>
-                          Recommended size 1200 × 500 · PNG, JPG
+                          Recommended size 1200 x 500 | PNG, JPG
                         </span>
                       </div>
                     ) : (
@@ -662,7 +751,7 @@ const CreateEvent = () => {
               </Section>
             </div>
 
-            {/* ── 2. Date & Time ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.1s" }}>
               <Section icon={IconCalendar} title="Date & Time">
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -719,9 +808,12 @@ const CreateEvent = () => {
               </Section>
             </div>
 
-            {/* ── 3. Location ── */}
-            <div className="ce-section" style={{ animationDelay: "0.15s" }}>
-              <Section icon={IconLocation} title="Location">
+            {/* Section */}
+            <div
+              className="ce-section"
+              style={{ animationDelay: "0.15s", position: "relative", zIndex: 5 }}
+            >
+            <Section icon={IconLocation} title="Location" style={{ overflow: "visible" }}>
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                   <Field label="City" half>
                     <StyledSelect
@@ -762,38 +854,109 @@ const CreateEvent = () => {
                     </StyledSelect>
                   </Field>
                   <Field label="Address" half>
-                    <InputWithIcon icon={IconLocation}>
-                      <StyledInput
-                        name="address"
-                        value={form.address}
-                        onChange={handleChange}
-                        placeholder="Venue address"
-                      />
-                    </InputWithIcon>
+                    <div style={{ position: "relative", zIndex: 50 }}>
+                      <InputWithIcon icon={IconLocation}>
+                        <StyledInput
+                          name="address"
+                          value={form.address}
+                          onChange={handleChange}
+                          placeholder="Venue address"
+                          autoComplete="off"
+                          onFocus={() => {
+                            if (addressResults.length) setShowAddressResults(true);
+                          }}
+                          onBlur={() => {
+                            setTimeout(() => setShowAddressResults(false), 120);
+                          }}
+                        />
+                      </InputWithIcon>
+
+                      {showAddressResults && (addressResults.length > 0 || addressLoading) && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "calc(100% + 6px)",
+                            left: 0,
+                            right: 0,
+                            background: "#fff",
+                            border: "1px solid #e2e8f0",
+                            borderRadius: 12,
+                            boxShadow: "0 10px 24px rgba(15, 23, 42, 0.08)",
+                            zIndex: 9999,
+                            overflow: "hidden",
+                          }}
+                        >
+                          {addressLoading && (
+                            <div style={{ padding: "10px 12px", fontSize: 13, color: "#64748b" }}>
+                              Searching...
+                            </div>
+                          )}
+                          {!addressLoading &&
+                            addressResults.map((item) => (
+                              <button
+                                key={item.place_id}
+                                type="button"
+                                onMouseDown={() => {
+                                  const nextAddress = item.display_name || "";
+                                  const nextCoords = {
+                                    lat: parseFloat(item.lat),
+                                    lng: parseFloat(item.lon),
+                                  };
+                                  setForm((prev) => ({ ...prev, address: nextAddress }));
+                                  setCoords(nextCoords);
+                                  setShowAddressResults(false);
+                                }}
+                                style={{
+                                  width: "100%",
+                                  textAlign: "left",
+                                  padding: "10px 12px",
+                                  border: "none",
+                                  background: "transparent",
+                                  cursor: "pointer",
+                                  fontSize: 13,
+                                  color: "#0f172a",
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = "#f1f5f9";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = "transparent";
+                                }}
+                              >
+                                {item.display_name}
+                              </button>
+                            ))}
+                        </div>
+                      )}
+                    </div>
                   </Field>
                 </div>
               </Section>
             </div>
-            {form.location && (
-              <div
-                style={{
-                  marginTop: 14,
-                  borderRadius: 14,
-                  overflow: "hidden",
-                  border: "1px solid #e2e8f0",
-                }}
-              >
+              {form.location && (
+                <div
+                  style={{
+                    marginTop: 14,
+                    borderRadius: 14,
+                    overflow: "hidden",
+                    border: "1px solid #e2e8f0",
+                    position: "relative",
+                    zIndex: 1,
+                  }}
+                >
                 <MapPicker
                   value={coords}
                   onChange={({ lat, lng, address }) => {
                     setCoords({ lat, lng });
                     setForm((prev) => ({ ...prev, address }));
+                    setShowAddressResults(false);
+                    setAddressResults([]);
                   }}
                 />
               </div>
             )}
 
-            {/* ── 4. Category ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.2s" }}>
               <Section icon={IconTag} title="Category">
                 <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -834,14 +997,14 @@ const CreateEvent = () => {
               </Section>
             </div>
 
-            {/* ── 5. Event Mode ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.25s" }}>
               <Section icon={IconGlobe} title="Event Mode">
                 <div className="ce-mode-row">
                   {[
-                    { value: "online", label: "Online", icon: "🌐" },
-                    { value: "offline", label: "Offline", icon: "📍" },
-                    { value: "hybrid", label: "Hybrid", icon: "🔀" },
+                    { value: "online", label: "Online", icon: "ON" },
+                    { value: "offline", label: "Offline", icon: "OFF" },
+                    { value: "hybrid", label: "Hybrid", icon: "HYB" },
                   ].map((mode) => (
                     <div
                       key={mode.value}
@@ -858,7 +1021,7 @@ const CreateEvent = () => {
               </Section>
             </div>
 
-            {/* ── 6. Ticket Price ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.3s" }}>
               <Section icon={IconDollar} title="Ticket Price">
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -887,13 +1050,13 @@ const CreateEvent = () => {
                       transition: "all 0.25s",
                     }}
                   >
-                    {form.ticket_price === "" ? "🎟 FREE" : "💰 Paid"}
+                    {form.ticket_price === "" ? "FREE" : "Paid"}
                   </span>
                 </div>
               </Section>
             </div>
 
-            {/* ── 7. Visibility ── */}
+            {/* Section */}
             <div className="ce-section" style={{ animationDelay: "0.35s" }}>
               <Section icon={IconGlobe} title="Visibility">
                 <div
@@ -950,11 +1113,22 @@ const CreateEvent = () => {
               </Section>
             </div>
 
-            {/* ── SUBMIT ── */}
+            {/* Section */}
             <div
               className="ce-section"
               style={{ animationDelay: "0.4s", paddingTop: 4 }}
             >
+              <div
+                style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12 }}
+              >
+                <TurnstileCaptcha
+                  key={`create-event-captcha-${captchaKey}`}
+                  siteKey={turnstileSiteKey}
+                  onVerify={setCaptchaToken}
+                  onExpire={() => setCaptchaToken("")}
+                />
+              </div>
+
               <div
                 style={{
                   display: "flex",
@@ -969,23 +1143,26 @@ const CreateEvent = () => {
                 <button
                   className="ce-publish"
                   onClick={submitEvent}
+                  disabled={captchaEnabled && !captchaToken}
                   style={{
                     background:
-                      "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+                      "linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)",
                     color: "#fff",
                     border: "none",
                     padding: "13px 36px",
                     borderRadius: 12,
                     fontSize: 15,
                     fontWeight: 700,
-                    cursor: "pointer",
-                    boxShadow: "0 4px 18px rgba(99,102,241,0.35)",
+                    cursor:
+                      captchaEnabled && !captchaToken ? "not-allowed" : "pointer",
+                    opacity: captchaEnabled && !captchaToken ? 0.6 : 1,
+                    boxShadow: "0 4px 18px rgba(37,99,235,0.32)",
                     transition: "all 0.2s cubic-bezier(.22,1,.36,1)",
                     letterSpacing: "0.02em",
                     fontFamily: "inherit",
                   }}
                 >
-                  Publish Event →
+                  Publish Event -&gt;
                 </button>
               </div>
             </div>
@@ -999,3 +1176,4 @@ const CreateEvent = () => {
 };
 
 export default CreateEvent;
+

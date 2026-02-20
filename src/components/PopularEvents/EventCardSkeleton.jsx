@@ -1,63 +1,31 @@
 const EventCardSkeleton = () => {
   return (
-    <div className="h-full rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-sm">
-      {/* IMAGE SKELETON */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 animate-shimmer bg-[length:200%_100%]">
-        {/* Category badge skeleton */}
-        <div className="absolute top-3 left-3">
-          <div className="h-7 w-24 bg-white/80 rounded-full animate-pulse" />
-        </div>
+    <div className="h-full overflow-hidden rounded-[18px] border border-slate-200/80 bg-white shadow-[0_12px_24px_-22px_rgba(15,23,42,0.45)]">
+      <div className="relative aspect-[16/9] bg-gradient-to-r from-slate-100 via-slate-200 to-slate-100 animate-shimmer">
+        <div className="absolute top-2.5 left-2.5 h-6 w-20 rounded-full bg-white/80 animate-pulse" />
       </div>
 
-      {/* CONTENT SKELETON */}
-      <div className="p-4 space-y-3">
-        {/* TITLE */}
+      <div className="space-y-2 p-3">
         <div className="space-y-2">
-          <div className="h-5 bg-gray-200 rounded-lg w-full animate-pulse" />
-          <div className="h-5 bg-gray-200 rounded-lg w-3/4 animate-pulse" />
+          <div className="h-4 w-full rounded-lg bg-slate-200 animate-pulse" />
+          <div className="h-4 w-3/4 rounded-lg bg-slate-200 animate-pulse" />
         </div>
 
-        {/* DESCRIPTION */}
         <div className="space-y-2">
-          <div className="h-4 bg-gray-200 rounded w-full animate-pulse" />
-          <div className="h-4 bg-gray-200 rounded w-5/6 animate-pulse" />
+          <div className="h-3.5 w-full rounded bg-slate-200 animate-pulse" />
+          <div className="h-3.5 w-5/6 rounded bg-slate-200 animate-pulse" />
         </div>
 
-        {/* LOCATION */}
-        <div className="flex items-start gap-2">
-          <div className="w-4 h-4 mt-0.5 bg-gray-200 rounded-full animate-pulse flex-shrink-0" />
-          <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse" />
+        <div className="flex items-start gap-1.5">
+          <div className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded-full bg-slate-200 animate-pulse" />
+          <div className="h-3.5 w-2/3 rounded bg-slate-200 animate-pulse" />
         </div>
 
-        {/* DATE + TIME */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-          <div className="flex items-center gap-1.5">
-            <div className="w-4 h-4 bg-gray-200 rounded-full animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse" />
-          </div>
-          
-          <div className="flex items-center gap-1.5">
-            <div className="w-4 h-4 bg-gray-200 rounded-full animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse" />
-          </div>
+        <div className="flex items-center justify-between border-t border-slate-100 pt-2">
+          <div className="h-5 w-16 rounded-full bg-slate-200 animate-pulse" />
+          <div className="h-3.5 w-16 rounded bg-slate-200 animate-pulse" />
         </div>
       </div>
-
-      {/* Custom shimmer animation */}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-      `}</style>
     </div>
   );
 };

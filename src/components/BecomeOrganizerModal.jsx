@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ENDPOINTS } from "../api/endpoints";
 import { post, get } from "../api/apiClient";
+import TurnstileCaptcha from "./Captcha/TurnstileCaptcha";
 
 // eslint-disable-next-line react/prop-types
 const BecomeOrganizerModal = ({ onClose }) => {
@@ -8,6 +9,8 @@ const BecomeOrganizerModal = ({ onClose }) => {
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
   const [otp, setOtp] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   const [form, setForm] = useState({
     name: "",
@@ -16,6 +19,14 @@ const BecomeOrganizerModal = ({ onClose }) => {
     location: "",
     image: null,
   });
+
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+  const captchaEnabled = Boolean(turnstileSiteKey);
+
+  const resetCaptcha = () => {
+    setCaptchaToken("");
+    setCaptchaKey((key) => key + 1);
+  };
 
   // lock scroll
   useEffect(() => {
@@ -46,6 +57,7 @@ const BecomeOrganizerModal = ({ onClose }) => {
     if (form.phone.length !== 10) return alert("Phone must be 10 digits");
     if (!form.location) return alert("Select city");
     if (!form.image) return alert("Upload profile image");
+    if (captchaEnabled && !captchaToken) return alert("Complete the captcha");
 
     try {
       setLoading(true);
@@ -56,6 +68,9 @@ const BecomeOrganizerModal = ({ onClose }) => {
       formData.append("phone", form.phone);
       formData.append("location", form.location);
       formData.append("image", form.image);
+      if (captchaEnabled) {
+        formData.append("cf-turnstile-response", captchaToken);
+      }
 
       await post(ENDPOINTS.BECOME_A_ORGANISER, formData);
 
@@ -65,6 +80,7 @@ const BecomeOrganizerModal = ({ onClose }) => {
       alert(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
+      if (captchaEnabled) resetCaptcha();
     }
   };
 
@@ -174,10 +190,19 @@ const BecomeOrganizerModal = ({ onClose }) => {
               />
             </label>
 
+            <div className="flex justify-center mt-4">
+              <TurnstileCaptcha
+                key={`organiser-captcha-${captchaKey}`}
+                siteKey={turnstileSiteKey}
+                onVerify={setCaptchaToken}
+                onExpire={() => setCaptchaToken("")}
+              />
+            </div>
+
             <div className="modal-actions">
               <button
                 onClick={handleSendOtp}
-                disabled={loading}
+                disabled={loading || (captchaEnabled && !captchaToken)}
                 className="modal-btn"
               >
                 {loading ? "Sending OTP..." : "Send OTP"}

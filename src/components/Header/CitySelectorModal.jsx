@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
-import { BASE_URL } from "../../config/constants";
 import { useCity } from "../../context/CityContext";
+import { resolveMediaUrl, withImageFallback } from "../../utils/mediaUrl";
 
 
 const CitySelectorModal = ({ open, onClose, onSelect }) => {
@@ -10,7 +10,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
   const [search, setSearch] = useState("");
   const [warning, setWarning] = useState(false);
   const [loading, setLoading] = useState(false);
-const { city: selectedCity, setCity } = useCity();
+  const { city: selectedCity, setCity } = useCity();
 
   useEffect(() => {
     if (!open) return;
@@ -39,23 +39,23 @@ const { city: selectedCity, setCity } = useCity();
   );
 
   const handleClose = () => {
-  if (!selectedCity) {
-    setWarning(true);
-    setTimeout(() => setWarning(false), 2500);
-    return;
-  }
+    if (!selectedCity) {
+      setWarning(true);
+      setTimeout(() => setWarning(false), 2500);
+      return;
+    }
 
-  onClose(); // allow close if city already chosen
-};
+    onClose();
+  };
 
 
   const handleSelect = (city) => {
-  setCity(city);       // saves globally + localStorage
-  onSelect?.(city);   // optional if parent uses it
-  onClose();
-};
+    setCity(city);
+    onSelect?.(city);
+    onClose();
+  };
 
-const selectedCityId = selectedCity?._id;
+  const selectedCityId = selectedCity?._id;
 
   return (
     <>
@@ -77,10 +77,14 @@ const selectedCityId = selectedCity?._id;
       )}
 
       {/* BACKDROP */}
-      <div className="fixed inset-0 z-[100] bg-gradient-to-br from-slate-900/60 via-slate-800/50 to-slate-900/60 backdrop-blur-md flex justify-center items-center p-4">
+      <div
+        className="fixed inset-0 z-[100] bg-gradient-to-br from-slate-900/60 via-slate-800/50 to-slate-900/60 backdrop-blur-md flex justify-center items-center p-4"
+        onMouseDown={handleClose}
+      >
         <div 
           className="bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden animate-modal-in"
-          style={{ maxHeight: '92vh' }}
+          style={{ maxHeight: "92vh" }}
+          onMouseDown={(event) => event.stopPropagation()}
         >
           {/* HEADER - Cleaner Design */}
           <div className="relative bg-gradient-to-r from-slate-50 to-white px-8 py-6 border-b border-slate-200">
@@ -99,13 +103,13 @@ const selectedCityId = selectedCity?._id;
                 Select Your City
               </h2>
               <p className="text-slate-600 text-sm">
-                Choose your location to discover local services and offerings
+                Choose your location to discover local events and experiences
               </p>
             </div>
           </div>
 
           {/* CONTENT */}
-          <div className="p-8 overflow-y-auto" style={{ maxHeight: 'calc(92vh - 140px)' }}>
+          <div className="p-8 overflow-y-auto" style={{ maxHeight: "calc(92vh - 140px)" }}>
             
             {/* POPULAR CITIES - Featured Grid */}
             {search === "" && popularCities.length > 0 && (
@@ -120,7 +124,7 @@ const selectedCityId = selectedCity?._id;
                     <button
                       key={city._id}
                       onClick={() => handleSelect(city)}
-className={`group relative bg-white border-2 rounded-2xl p-5 transition-all duration-300 overflow-hidden
+                      className={`group relative bg-white border-2 rounded-2xl p-5 transition-all duration-300 overflow-hidden
   ${
     selectedCityId === city._id
       ? "border-blue-500 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50 scale-[1.02]"
@@ -129,7 +133,7 @@ className={`group relative bg-white border-2 rounded-2xl p-5 transition-all dura
 `}
                     >
                       {/* Hover Effect Background */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-blue-50 to-sky-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       
                       <div className="relative flex flex-col items-center gap-3">
                         {/* City Image/Icon */}
@@ -137,19 +141,13 @@ className={`group relative bg-white border-2 rounded-2xl p-5 transition-all dura
                           {city.image ? (
                             <div className="w-20 h-20 rounded-2xl overflow-hidden bg-slate-100 shadow-md group-hover:shadow-xl transition-shadow">
                               <img
-                                src={`${BASE_URL}${city.image}`}
+                                src={resolveMediaUrl(city.image, "/images/event-placeholder.svg")}
                                 alt={city.city}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
+                                onError={(eventTarget) =>
+                                  withImageFallback(eventTarget, "/images/event-placeholder.svg")
+                                }
                               />
-                              <div className="hidden w-full h-full items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600">
-                                <span className="text-3xl font-bold text-white">
-                                  {city.city.charAt(0)}
-                                </span>
-                              </div>
                             </div>
                           ) : (
                             <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 shadow-md group-hover:shadow-xl flex items-center justify-center transition-shadow">
@@ -185,7 +183,7 @@ className={`group relative bg-white border-2 rounded-2xl p-5 transition-all dura
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-1 h-6 bg-gradient-to-b from-slate-500 to-slate-600 rounded-full"></div>
                 <h3 className="text-lg font-bold text-slate-800">
-                  {search ? 'Search Results' : 'All Cities'}
+                  {search ? "Search Results" : "All Cities"}
                 </h3>
                 {filteredCities.length > 0 && (
                   <span className="px-3 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">
@@ -270,7 +268,7 @@ className={`group relative bg-white border-2 rounded-2xl p-5 transition-all dura
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes bounce-in {
           0% {
             transform: translate(-50%, -100%);

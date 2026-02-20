@@ -10,18 +10,24 @@ import InfoPage from "./pages/InfoPage";
 import OrganiserProfile from "./pages/OrganiserProfile";
 import { AlertProvider } from "./components/AlertAndLoader/Alert";
 import { AuthProvider } from "./components/Auth/AuthContext";
+import VisitTracker from "./utils/visitTracker";
+import BlogList from "./pages/BlogList";
+import BlogDetails from "./pages/BlogDetails";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <AlertProvider>
+          <VisitTracker />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/city/:citySlug" element={<CityPage />} />
             <Route path="/event/:eventId" element={<EventDetails />} />
             <Route path="/organiser/:id" element={<OrganiserProfile />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogDetails />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/info/:page" element={<InfoPage />} />
             <Route path="/profile" element={<Profile />} />
