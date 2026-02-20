@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const FILTERS = [
   {
     value: "all",
@@ -34,50 +36,55 @@ const FILTERS = [
 const EventFilters = ({ filter, setFilter }) => {
   return (
     <div className="w-full">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 rounded-2xl border border-slate-200/80 bg-white/90 backdrop-blur px-4 py-4 md:px-6 md:py-5 shadow-[0_14px_40px_-30px_rgba(15,23,42,0.35)]">
-        <div className="space-y-1">
-          <p className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">
-            Filter Events
-          </p>
-          <p className="text-sm text-slate-500">
-            Choose a time window that matches your plans
-          </p>
-        </div>
+      <div className="rounded-2xl border border-slate-200/80 bg-white/95 p-4 shadow-[0_16px_40px_-30px_rgba(15,23,42,0.35)] md:p-5">
+        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div className="space-y-1 text-left">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+              Filter Events
+            </p>
+            <p className="text-sm text-slate-500">
+              Choose a time window that matches your plan
+            </p>
+          </div>
 
-        <div className="flex flex-wrap gap-3">
-          {FILTERS.map((item) => {
-            const isActive = filter === item.value;
-            return (
-              <button
-                key={item.value}
-                type="button"
-                onClick={() => setFilter(item.value)}
-                className={`group relative flex items-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-semibold transition-all duration-300
-                  ${
+          <div className="flex flex-wrap gap-2 md:justify-end">
+            {FILTERS.map((item) => {
+              const isActive = filter === item.value;
+              return (
+                <button
+                  key={item.value}
+                  type="button"
+                  onClick={() => setFilter(item.value)}
+                  className={`group relative inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-300 ${
                     isActive
-                      ? "border-transparent bg-blue-600 text-white shadow-lg shadow-blue-200"
+                      ? "border-transparent bg-blue-600 text-white shadow-md shadow-blue-200"
                       : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-                  }
-                `}
-              >
-                <span className={`transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`}>
-                  {item.icon}
-                </span>
-                <span>{item.label}</span>
-
-                {isActive && (
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                  }`}
+                >
+                  <span className={`transition-transform duration-300 ${isActive ? "" : "group-hover:scale-110"}`}>
+                    {item.icon}
                   </span>
-                )}
-              </button>
-            );
-          })}
+                  <span>{item.label}</span>
+
+                  {isActive && (
+                    <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+                      <span className="relative inline-flex h-3 w-3 rounded-full bg-white" />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
   );
+};
+
+EventFilters.propTypes = {
+  filter: PropTypes.oneOf(["all", "week", "month"]).isRequired,
+  setFilter: PropTypes.func.isRequired,
 };
 
 export default EventFilters;

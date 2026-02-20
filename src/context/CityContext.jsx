@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 const CityContext = createContext();
 
@@ -31,17 +31,22 @@ export const CityProvider = ({ children }) => {
   // ===============================
   // UPDATE CITY + WRITE COOKIE
   // ===============================
-  const updateCity = (cityObj) => {
+  const updateCity = useCallback((cityObj) => {
     document.cookie = `selected_city=${encodeURIComponent(
       JSON.stringify(cityObj)
     )}; path=/; max-age=2592000`; // 30 days
 
     setCity(cityObj);
-  };
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({ city, setCity: updateCity }),
+    [city, updateCity]
+  );
 
   return (
     <CityContext.Provider
-      value={{ city, setCity: updateCity }}
+      value={contextValue}
     >
       {children}
     </CityContext.Provider>

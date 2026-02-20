@@ -93,7 +93,7 @@ const EventCard = ({ event }) => {
 
   const description = pickFirstValue(
     event?.description,
-    [categoryName, modeLabel ? `${toTitleCase(modeLabel)} event` : "", priceLabel].filter(Boolean).join(" • "),
+    [categoryName, modeLabel ? `${toTitleCase(modeLabel)} event` : "", priceLabel].filter(Boolean).join(" | "),
     "Event details coming soon",
   );
   const startDate = formatDate(pickFirstValue(event?.start_date, event?.createdAt)) || "Date soon";
@@ -113,7 +113,7 @@ const EventCard = ({ event }) => {
     >
       <div className="relative h-full overflow-hidden rounded-[16px] border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
         {/* IMAGE CONTAINER */}
-        <div className="relative overflow-hidden aspect-[16/9]">
+        <div className="relative h-44 overflow-hidden">
           {/* Loading placeholder */}
           {!imageLoaded && (
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse" />

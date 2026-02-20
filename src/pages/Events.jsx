@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
@@ -41,11 +41,7 @@ const Events = () => {
     setSearchInput(params.get("search") || "");
   }, [params]);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [filters, search]);
-
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -73,7 +69,11 @@ const Events = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters.category, filters.free, filters.paid, filters.date, filters.mode, search]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   const applySearch = () => {
     const trimmed = searchInput.trim();
@@ -149,7 +149,7 @@ const Events = () => {
                     {events.length === 1 ? "event" : "events"}
                     {search ? (
                       <>
-                        {" "}for <span className="font-semibold text-blue-700">"{search}"</span>
+                        {" "}for <span className="font-semibold text-blue-700">{`"${search}"`}</span>
                       </>
                     ) : null}
                   </div>
