@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import EventCard from "./EventCard";
 import EventCardSkeleton from "./EventCardSkeleton";
 import { get } from "../../api/apiClient";
@@ -45,18 +46,22 @@ const PopularEvents = () => {
   };
 
   return (
-    <section className="rounded-[30px] border border-slate-200/80 bg-white/85 p-5 md:p-8 lg:p-10 shadow-[0_24px_52px_-40px_rgba(15,23,42,0.42)]">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-10">
+    <section className="py-12 lg:py-16">
+      {/* ================= HEADER ================= */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-10">
+        {/* LEFT */}
         <div className="space-y-2">
-          <p className="inline-flex items-center gap-2 rounded-full bg-cyan-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-700">
-            Trending Now
-          </p>
-          <h2 className="font-semibold text-3xl lg:text-4xl text-slate-900">Explore Popular Events</h2>
-          <p className="text-slate-600 text-base lg:text-lg max-w-2xl">
-            Discover the most exciting experiences happening around {city?.city || "you"}.
+          <div className="flex items-center gap-3">
+            <h2 className="font-bold text-3xl lg:text-4xl text-gray-900">
+              Explore Popular Events
+            </h2>
+          </div>
+          <p className="text-gray-600 text-base lg:text-lg max-w-2xl">
+            Discover the most exciting events and experiences happening near you
           </p>
         </div>
 
+        {/* RIGHT FILTERS */}
         <div className="flex flex-wrap gap-3">
           <FilterButton
             active={filter === "all"}
@@ -96,9 +101,10 @@ const PopularEvents = () => {
         </div>
       </div>
 
-      <div>
+      {/* ================= EVENTS ================= */}
+      <div className="mt-8">
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {[...Array(8)].map((_, i) => (
               <EventCardSkeleton key={i} />
             ))}
@@ -109,19 +115,19 @@ const PopularEvents = () => {
             title="No events found"
             description={
               filter === "week"
-                ? "No events scheduled for this week. Check back soon."
+                ? "No events scheduled for this week. Check back soon!"
                 : filter === "month"
                   ? "No events available this month. Explore all events instead."
                   : "No events available in this city right now. Try selecting a different city."
             }
           />
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {events.map((event, index) => (
               <div
-                key={event?._id || event?.id || `popular-event-${index}`}
-                style={{ animationDelay: `${index * 55}ms` }}
-                className="animate-enter-up"
+                key={event._id}
+                style={{ animationDelay: `${index * 50}ms` }}
+                className="animate-fade-in-up"
               >
                 <EventCard event={event} />
               </div>
@@ -130,15 +136,16 @@ const PopularEvents = () => {
         )}
       </div>
 
+      {/* Results count */}
       {!loading && events.length > 0 && (
         <div className="mt-8 text-center">
-          <p className="text-slate-600 text-sm md:text-base">
-            Showing <span className="font-semibold text-slate-900">{events.length}</span>{" "}
-            {events.length === 1 ? "event" : "events"}
+          <p className="text-gray-600">
+            Showing <span className="font-semibold text-gray-900">{events.length}</span>{" "}
+            {events.length === 1 ? 'event' : 'events'}
             {filter !== "all" && (
               <span>
                 {" "}for{" "}
-                <span className="font-semibold text-blue-700">
+                <span className="font-semibold text-purple-600">
                   {filter === "week" ? "this week" : "this month"}
                 </span>
               </span>
@@ -146,11 +153,31 @@ const PopularEvents = () => {
           </p>
         </div>
       )}
+
+      {/* Custom CSS */}
+      <style>{`
+        @keyframes fade-in-up {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in-up {
+          animation: fade-in-up 0.5s ease-out both;
+        }
+      `}</style>
     </section>
   );
 };
 
 export default PopularEvents;
+
+/* ================= FILTER BUTTON ================= */
 
 const FilterButton = ({ children, active, onClick, icon }) => (
   <button
@@ -162,24 +189,33 @@ const FilterButton = ({ children, active, onClick, icon }) => (
       rounded-full
       text-sm font-semibold
       transition-all duration-300
-      border
+      border-2
       ${
         active
-          ? "border-transparent bg-gradient-to-r from-blue-700 to-cyan-500 text-white shadow-lg shadow-blue-500/25"
-          : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/70 hover:text-blue-700"
+          ? "border-transparent bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white shadow-lg shadow-purple-200"
+          : "border-gray-200 bg-white text-gray-700 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700"
       }
     `}
   >
-    <span className={`transition-transform duration-300 ${active ? "" : "group-hover:scale-110"}`}>
+    <span className={`transition-transform duration-300 ${active ? '' : 'group-hover:scale-110'}`}>
       {icon}
     </span>
     <span>{children}</span>
-
+    
+    {/* Active indicator dot */}
     {active && (
       <span className="absolute -top-1 -right-1 flex h-3 w-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-        <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
       </span>
     )}
   </button>
 );
+FilterButton.propTypes = {
+  children: PropTypes.node.isRequired,
+  active: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+  icon: PropTypes.node,
+};
+
+

@@ -32,9 +32,20 @@ const toTimeInput = (value) => {
   return "";
 };
 
+const getStoredUser = () => {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    console.error("Failed to parse stored user", error);
+    return null;
+  }
+};
+
 const Profile = () => {
-  const [profile, setProfile] = useState(null);
-  const [draft, setDraft] = useState({});
+  const seedProfile = getStoredUser();
+  const [profile, setProfile] = useState(seedProfile);
+  const [draft, setDraft] = useState(seedProfile || {});
   const [dirty, setDirty] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -82,10 +93,25 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       const res = await get(ENDPOINTS.GET_PROFILE, { authRequired: true });
-      setProfile(res.data.profile);
-      setDraft(res.data.profile);
+      const payload = res?.data || {};
+      const fetchedProfile =
+        payload.profile ||
+        payload.user ||
+        payload.data?.profile ||
+        payload.data?.user ||
+        (payload.data && typeof payload.data === "object" ? payload.data : null);
+
+      if (fetchedProfile) {
+        setProfile((prev) => ({ ...(prev || {}), ...fetchedProfile }));
+        setDraft((prev) => ({ ...(prev || {}), ...fetchedProfile }));
+      }
     } catch (err) {
       console.error(err);
+      const fallbackUser = getStoredUser();
+      if (fallbackUser) {
+        setProfile((prev) => ({ ...(prev || {}), ...fallbackUser }));
+        setDraft((prev) => ({ ...(prev || {}), ...fallbackUser }));
+      }
     } finally {
       setLoading(false);
     }
@@ -110,9 +136,18 @@ const Profile = () => {
         { authRequired: true },
       );
 
-      setEvents(res.data.events || []);
+      const payload = res?.data || {};
+      const list =
+        payload.events ||
+        payload.data?.events ||
+        payload.userEvents ||
+        payload.data ||
+        [];
+
+      setEvents(Array.isArray(list) ? list : []);
       setEventsPagination(
-        res.data.pagination || {
+        payload.pagination ||
+          payload.data?.pagination || {
           page: 1,
           limit: EVENTS_PAGE_SIZE,
           totalRecords: 0,
@@ -137,9 +172,10 @@ const Profile = () => {
     try {
       setSaving(true);
       const formData = new FormData();
+      const current = profile || {};
 
       ["name", "email", "phone"].forEach((key) => {
-        if (draft[key] !== profile[key]) {
+        if (draft[key] !== current[key]) {
           formData.append(key, draft[key] || "");
         }
       });
@@ -153,9 +189,18 @@ const Profile = () => {
         formData,
         { authRequired: true },
       );
+      const payload = res?.data || {};
+      const updatedProfile =
+        payload.profile ||
+        payload.user ||
+        payload.data?.profile ||
+        payload.data?.user ||
+        (payload.data && typeof payload.data === "object" ? payload.data : null);
 
-      setProfile(res.data.profile);
-      setDraft(res.data.profile);
+      if (updatedProfile) {
+        setProfile(updatedProfile);
+        setDraft(updatedProfile);
+      }
       setDirty(false);
     } catch (err) {
       console.error(err);
@@ -251,11 +296,15 @@ const Profile = () => {
     }
   };
 
+  const currentProfile = profile || draft || {};
+
   const imageUrl =
     draft.image instanceof File
       ? URL.createObjectURL(draft.image)
-      : profile?.image
-      ? resolveMediaUrl(profile.image, "/images/organizer-placeholder.svg")
+      : draft?.image
+      ? resolveMediaUrl(draft.image, "/images/organizer-placeholder.svg")
+      : currentProfile?.image
+      ? resolveMediaUrl(currentProfile.image, "/images/organizer-placeholder.svg")
       : null;
 
   const modalImageUrl =
@@ -311,7 +360,7 @@ const Profile = () => {
 
           {loading && <ProfileSkeleton />}
 
-          {!loading && profile && (
+          {!loading && (
             <>
               <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 relative overflow-hidden">
@@ -339,7 +388,7 @@ const Profile = () => {
                           />
                         ) : (
                           <span className="uppercase">
-                            {profile.name?.charAt(0)}
+                            {currentProfile.name?.charAt(0) || "U"}
                           </span>
                         )}
                       </div>

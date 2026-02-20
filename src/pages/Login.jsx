@@ -56,54 +56,54 @@ const Login = () => {
 
   return (
     <AuthLayout>
+      {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
         <>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Welcome</p>
-          <h2 className="mt-2 text-3xl font-semibold text-slate-900">Sign in to continue</h2>
-          <p className="mt-2 text-sm text-slate-600">Enter your email and we will send a one-time code.</p>
+          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
+            Welcome back
+          </h2>
 
           <input
             type="email"
             placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-6 w-full border border-slate-300 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-blue-300 outline-none"
+            className="w-full border border-slate-300 rounded-xl px-4 py-3.5 mb-6 focus:ring-2 focus:ring-rose-400 outline-none"
           />
 
           <button
             onClick={sendOtp}
-            className="mt-5 w-full rounded-xl bg-gradient-to-r from-blue-700 to-cyan-500 py-3.5 text-base font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+            style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
+            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm"
           >
             Continue
           </button>
         </>
       )}
 
+      {/* ================= OTP STEP ================= */}
       {step === "otp" && (
         <>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Verification</p>
-          <h2 className="mt-2 text-3xl font-semibold text-slate-900">Enter verification code</h2>
-          <p className="mt-2 text-sm text-slate-600">Code sent to <span className="font-semibold text-slate-800">{email}</span></p>
+          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
+            Enter verification code
+          </h2>
 
-          <div className="mt-6">
-            <OtpInput value={otp} onChange={setOtp} />
-          </div>
+          <OtpInput value={otp} onChange={setOtp} />
 
           <button
             onClick={verifyOtp}
-            className="mt-6 w-full rounded-xl bg-gradient-to-r from-blue-700 to-cyan-500 py-3.5 text-base font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+            style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
+            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm mt-6"
           >
             Verify & Login
           </button>
 
-          <div className="mt-4 flex items-center justify-between text-sm">
-            <button onClick={sendOtp} className="text-slate-500 transition hover:text-blue-700">
-              Resend OTP
-            </button>
-            <button onClick={() => setStep("email")} className="text-slate-500 transition hover:text-blue-700">
-              Change email
-            </button>
-          </div>
+          <button
+            onClick={sendOtp}
+            className="w-full text-sm text-slate-500 mt-4"
+          >
+            Resend OTP
+          </button>
         </>
       )}
     </AuthLayout>
