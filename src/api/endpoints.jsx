@@ -48,5 +48,10 @@ export const ENDPOINTS = {
 
   GET_BLOGS: "/blogs",
   GET_BLOG_BY_SLUG: "/blogs",
+  GET_HERO_CONTENT: "/get-hero-content",
+  GET_HERO_VIDEOS: "/get-hero-videos",
+  GET_HERO_METRICS: "/get-hero-metrics",
+  ADMIN_GET_HERO_CONTENT: "/admin/get-hero-content",
+  ADMIN_UPSERT_HERO_CONTENT: "/admin/upsert-hero-content",
 
 };
