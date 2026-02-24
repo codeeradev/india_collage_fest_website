@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/Home";
 import CityPage from "./pages/CityPage";
 import CreateEvent from "./pages/CreateEvent";
 import Login from "./pages/Login";
@@ -12,7 +11,9 @@ import { AlertProvider } from "./components/AlertAndLoader/Alert";
 import { AuthProvider } from "./components/Auth/AuthContext";
 import VisitTracker from "./utils/visitTracker";
 import BlogList from "./pages/BlogList";
+import HomePage from "./pages/Home";
 import BlogDetails from "./pages/BlogDetails";
+import ComingSoon from "./pages/ComingSoon";
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
         <AlertProvider>
           <VisitTracker />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<ComingSoon />} />
+            <Route path="/home" element={<HomePage />} />
             <Route path="/events" element={<Events />} />
             <Route path="/city/:citySlug" element={<CityPage />} />
             <Route path="/event/:eventId" element={<EventDetails />} />

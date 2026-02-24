@@ -117,6 +117,7 @@ const Events = () => {
           </div>
         </section>
 
+
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pt-10">
           <div className="mb-7">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Explore</p>
@@ -126,14 +127,10 @@ const Events = () => {
             </p>
           </div>
 
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-            <aside className="w-full lg:w-[280px] lg:shrink-0">
-              <div className="lg:sticky lg:top-[102px]">
-                <EventFilters filters={filters} setFilters={setFilters} />
-              </div>
-            </aside>
+          <div className="space-y-7">
+            <EventFilters filters={filters} setFilters={setFilters} />
 
-            <section className="flex-1">
+            <section>
               {loading ? (
                 <p className="py-20 text-center text-slate-500">Loading events...</p>
               ) : events.length === 0 ? (
@@ -154,7 +151,10 @@ const Events = () => {
                     ) : null}
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  <div
+                    className="grid gap-4"
+                    style={{ gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))" }}
+                  >
                     {events.map((event, index) => (
                       <div
                         key={event?._id || event?.id || `event-card-${index}`}

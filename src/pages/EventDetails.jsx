@@ -18,7 +18,6 @@ const EventDetails = () => {
 
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,10 +37,6 @@ const EventDetails = () => {
 
     loadEvent();
   }, [eventId]);
-
-  useEffect(() => {
-    setImageLoaded(false);
-  }, [event?._id, event?.image, event?.banner, event?.bannerimg, event?.bannerImage]);
 
   const heroImageUrl = useMemo(() => resolveEventImageUrl(event), [event]);
   const categoryIconUrl = useMemo(
@@ -92,7 +87,12 @@ const EventDetails = () => {
               <button
                 type="button"
                 onClick={() => navigate("/events")}
-                className="mt-6 rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+                className="mt-6 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+                style={{
+                  background: "linear-gradient(90deg, #1d4ed8 0%, #06b6d4 100%)",
+                  color: "#ffffff",
+                  WebkitTextFillColor: "#ffffff",
+                }}
               >
                 Browse Events
               </button>
@@ -110,18 +110,14 @@ const EventDetails = () => {
 
       <div className="pt-20">
         <section className="relative h-[52vh] min-h-[360px] overflow-hidden bg-slate-950">
-          {!imageLoaded && <div className="absolute inset-0 animate-pulse bg-slate-900" />}
-
           <img
             src={heroImageUrl}
             alt={event?.title || "Event banner"}
-            className={`h-full w-full object-cover transition-opacity duration-500 ${
-              imageLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            onLoad={() => setImageLoaded(true)}
+            className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
             onError={(eventTarget) => {
               withImageFallback(eventTarget, "/images/event-placeholder.svg");
-              setImageLoaded(true);
             }}
           />
 
@@ -216,7 +212,12 @@ const EventDetails = () => {
                   <button
                     type="button"
                     onClick={handleBooking}
-                    className="mt-6 w-full rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+                    className="mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+                    style={{
+                      background: "linear-gradient(90deg, #1d4ed8 0%, #06b6d4 100%)",
+                      color: "#ffffff",
+                      WebkitTextFillColor: "#ffffff",
+                    }}
                   >
                     {event?.ticket_price === "free" ? "Register for free" : "Book tickets"}
                   </button>
