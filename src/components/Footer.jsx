@@ -79,20 +79,20 @@ const Footer = () => {
         isolation: "isolate",
         opacity: 1,
         background:
-          "radial-gradient(circle at 12% 16%, rgba(14,165,233,0.2) 0%, transparent 34%), radial-gradient(circle at 88% 12%, rgba(59,130,246,0.18) 0%, transparent 36%), linear-gradient(180deg, #020617 0%, #07152f 54%, #081a37 100%)",
-        borderTop: "1px solid rgba(148, 163, 184, 0.34)",
+          "radial-gradient(circle at 10% 12%, rgba(37,99,235,0.16) 0%, transparent 34%), radial-gradient(circle at 90% 10%, rgba(30,64,175,0.14) 0%, transparent 32%), linear-gradient(180deg, #06122c 0%, #081634 55%, #0a1a3b 100%)",
+        borderTop: "1px solid rgba(148, 163, 184, 0.26)",
         color: "#e2e8f0",
       }}
     >
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/50 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300/35 to-transparent" />
       <div className="pointer-events-none absolute inset-0">
         <div
           className="absolute -top-20 left-[-8rem] h-80 w-80 rounded-full blur-3xl"
-          style={{ background: "rgba(14, 165, 233, 0.22)" }}
+          style={{ background: "rgba(37, 99, 235, 0.16)" }}
         />
         <div
           className="absolute -bottom-24 right-[-7rem] h-80 w-80 rounded-full blur-3xl"
-          style={{ background: "rgba(37, 99, 235, 0.24)" }}
+          style={{ background: "rgba(30, 64, 175, 0.18)" }}
         />
       </div>
 
@@ -123,7 +123,7 @@ const Footer = () => {
                 <a
                   href="mailto:indiacollegefest@gmail.com"
                   className="transition-colors hover:opacity-90"
-                  style={{ color: "#67e8f9" }}
+                  style={{ color: "#93c5fd" }}
                 >
                   indiacollegefest@gmail.com
                 </a>
