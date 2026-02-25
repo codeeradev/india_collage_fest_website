@@ -64,9 +64,8 @@ const LandingPage = () => {
             <Hero />
 
             <RevealOnScroll delay={60}>
-              <section className="relative border-y border-slate-200/70 bg-gradient-to-b from-white/80 to-blue-50/65 backdrop-blur-sm">
-                <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_15%_20%,rgba(59,130,246,0.12),transparent_45%),radial-gradient(circle_at_85%_80%,rgba(14,165,233,0.12),transparent_40%)]" />
-                <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-14">
+              <section className="relative bg-slate-50/90">
+                <div className="relative mx-auto max-w-7xl px-4 py-12 md:px-6 md:py-14 lg:px-8">
                   <Categories />
                 </div>
               </section>

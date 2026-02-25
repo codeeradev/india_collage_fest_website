@@ -22,13 +22,7 @@ const SearchBar = () => {
   }, [value, navigate]);
 
   return (
-    <div
-      className="
-        group flex items-center gap-3
-        w-full rounded-full px-4 py-2.5
-        transition-all duration-300
-      "
-    >
+    <div className="group flex w-full items-center gap-3 rounded-full px-4 py-2.5 transition-all duration-300">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -37,7 +31,7 @@ const SearchBar = () => {
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-5 h-5 text-slate-400 transition-colors duration-300 group-focus-within:text-blue-600 group-hover:text-blue-500"
+        className="h-5 w-5 shrink-0 text-slate-400 transition-colors duration-300 group-focus-within:text-blue-600 group-hover:text-blue-500"
       >
         <circle cx="11" cy="11" r="8" />
         <path d="m21 21-4.3-4.3" />
@@ -49,13 +43,8 @@ const SearchBar = () => {
           typingRef.current = true;
           setValue(e.target.value);
         }}
-        placeholder="Search for any event"
-        className="
-          w-full bg-transparent
-          text-sm font-medium text-slate-800
-          placeholder:text-slate-400 placeholder:font-medium
-          outline-none
-        "
+        placeholder="Search events"
+        className="w-full bg-transparent text-sm font-medium text-slate-800 outline-none placeholder:font-medium placeholder:text-slate-400"
       />
     </div>
   );

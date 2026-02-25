@@ -37,12 +37,12 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 border-b border-slate-200/85 bg-white/75 backdrop-blur-2xl supports-[backdrop-filter]:bg-white/70">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/88 backdrop-blur-xl supports-[backdrop-filter]:bg-white/82">
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-500/45 to-transparent" />
 
-        <div className="mx-auto max-w-[1440px] px-4 md:px-6 lg:px-8">
-          <div className="flex h-[74px] items-center justify-between gap-3 md:gap-6">
-            <div className="flex items-center gap-4 lg:gap-8">
+        <div className="mx-auto max-w-[1320px] px-4 md:px-6 lg:px-8">
+          <div className="flex h-[70px] items-center justify-between gap-3 md:gap-5">
+            <div className="flex items-center gap-3 lg:gap-7">
               <Link to="/" className="flex items-center">
                 <Logo />
               </Link>
@@ -51,7 +51,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => setExploreOpen((prev) => !prev)}
-                  className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-700 shadow-[0_10px_20px_-16px_rgba(15,23,42,0.55)] transition-all hover:border-blue-300 hover:text-blue-700"
+                  className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_8px_16px_-14px_rgba(15,23,42,0.45)] transition-all hover:border-blue-300 hover:text-blue-700"
                 >
                   <span>Explore</span>
                   <svg
@@ -75,16 +75,16 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex flex-1 max-w-2xl">
-              <div className="w-full rounded-full border border-slate-200/80 bg-white/95 shadow-[0_14px_26px_-20px_rgba(15,23,42,0.5)] hover:border-blue-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all duration-300">
+            <div className="hidden lg:flex max-w-xl flex-1">
+              <div className="w-full rounded-full border border-slate-200 bg-slate-50/90 shadow-[0_10px_22px_-18px_rgba(15,23,42,0.5)] transition-all duration-300 hover:border-blue-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100">
                 <SearchBar />
               </div>
             </div>
 
-            <div className="flex items-center gap-2 md:gap-3 shrink-0">
+            <div className="flex shrink-0 items-center gap-2 md:gap-2.5">
               <button
                 type="button"
-                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:text-blue-700 md:px-4"
+                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-700 md:px-4"
                 onClick={() => setCityModalOpen(true)}
                 aria-label="Select city"
                 title={city ? `Current city: ${city.city}` : "Select city"}
@@ -99,7 +99,7 @@ const Header = () => {
               <button
                 type="button"
                 onClick={handleCreateEvent}
-                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-3 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-400 hover:text-blue-700 md:px-5"
+                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-400 hover:text-blue-700 md:px-4"
                 aria-label="Create event"
                 title="Create Event"
               >
@@ -113,7 +113,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/profile")}
-                  className="group flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white/95 pl-2 pr-3 py-1.5 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
+                  className="group flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white pl-2 pr-3 py-1.5 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
                   title="Profile"
                 >
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 text-sm font-bold uppercase text-white">
@@ -127,7 +127,7 @@ const Header = () => {
                 <button
                   type="button"
                   onClick={() => navigate("/login")}
-                  className="rounded-full bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5 hover:shadow-blue-600/40"
+                  className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-slate-800"
                 >
                   Login
                 </button>

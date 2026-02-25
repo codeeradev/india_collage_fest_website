@@ -16,11 +16,11 @@ export const DEFAULT_HERO_CONTENT = {
       src: "https://storage.googleapis.com/ticket9-prod.appspot.com/videos/1765955295343_music.mp4",
     },
   ],
-  stats: [
-    { key: "approved_events", label: "Approved Events", value: 0 },
-    { key: "active_organisers", label: "Active Organisers", value: 0 },
-    { key: "active_cities", label: "Active Cities", value: 0 },
-  ],
+  // stats: [
+  //   { key: "approved_events", label: "Approved Events", value: 0 },
+  //   { key: "active_organisers", label: "Active Organisers", value: 0 },
+  //   { key: "active_cities", label: "Active Cities", value: 0 },
+  // ],
 };
 
 export const DEFAULT_HERO_CATEGORIES = [
