@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
@@ -84,7 +85,7 @@ const EventDetails = () => {
             <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
               <h2 className="text-2xl font-semibold text-slate-900">Event not found</h2>
               <p className="mt-2 text-slate-600">This event does not exist or is no longer available.</p>
-              <button
+              <Button
                 type="button"
                 onClick={() => navigate("/events")}
                 className="mt-6 inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
@@ -95,7 +96,7 @@ const EventDetails = () => {
                 }}
               >
                 Browse Events
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -126,13 +127,13 @@ const EventDetails = () => {
           <div className={`absolute inset-x-0 bottom-0 pb-10 ${CONTAINER}`}>
             <div className="max-w-4xl">
               <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-white/85">
-                <button type="button" onClick={() => navigate("/")} className="transition hover:text-white">
+                <Button type="button" onClick={() => navigate("/")} className="transition hover:text-white">
                   Home
-                </button>
+                </Button>
                 <span>/</span>
-                <button type="button" onClick={() => navigate("/events")} className="transition hover:text-white">
+                <Button type="button" onClick={() => navigate("/events")} className="transition hover:text-white">
                   Events
-                </button>
+                </Button>
               </div>
 
               {event?.category ? (
@@ -209,7 +210,7 @@ const EventDetails = () => {
                     <InfoRow label="Location" value={locationLabel} />
                   </div>
 
-                  <button
+                  <Button
                     type="button"
                     onClick={handleBooking}
                     className="mt-6 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
@@ -220,7 +221,7 @@ const EventDetails = () => {
                     }}
                   >
                     {event?.ticket_price === "free" ? "Register for free" : "Book tickets"}
-                  </button>
+                  </Button>
 
                   <p className="mt-4 text-xs text-slate-500">
                     Secure booking and confirmation are provided instantly after checkout.
@@ -262,3 +263,5 @@ const LoadingSkeleton = () => (
 );
 
 export default EventDetails;
+
+

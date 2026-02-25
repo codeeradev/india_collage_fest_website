@@ -3,6 +3,7 @@ import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
 import { useCity } from "../../context/CityContext";
 import { resolveMediaUrl, withImageFallback } from "../../utils/mediaUrl";
+import { Button } from "../ui/button";
 
 
 const CitySelectorModal = ({ open, onClose, onSelect }) => {
@@ -88,7 +89,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
         >
           {/* HEADER - Cleaner Design */}
           <div className="relative bg-gradient-to-r from-slate-50 to-white px-8 py-6 border-b border-slate-200">
-            <button
+            <Button
               onClick={handleClose}
               className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-all group"
               aria-label="Close modal"
@@ -96,7 +97,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
               <svg className="w-5 h-5 text-slate-600 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </Button>
             
             <div className="max-w-xl">
               <h2 className="text-3xl font-bold text-slate-900 mb-2">
@@ -121,7 +122,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                 
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                   {popularCities.map((city) => (
-                    <button
+                    <Button
                       key={city._id}
                       onClick={() => handleSelect(city)}
                       className={`group relative bg-white border-2 rounded-2xl p-5 transition-all duration-300 overflow-hidden
@@ -172,7 +173,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                           </span>
                         </div>
                       </div>
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -207,14 +208,14 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                   className="w-full pl-12 pr-12 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white outline-none transition-all text-sm placeholder:text-slate-400"
                 />
                 {search && (
-                  <button
+                  <Button
                     onClick={() => setSearch("")}
                     className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
                   >
                     <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
-                  </button>
+                  </Button>
                 )}
               </div>
 
@@ -241,7 +242,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                   ) : (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 p-2">
                       {filteredCities.map((city) => (
-                        <button
+                        <Button
                           key={city._id}
                           onClick={() => handleSelect(city)}
                           className="group relative bg-white hover:bg-gradient-to-br hover:from-blue-50 hover:to-indigo-50 border border-slate-200 hover:border-blue-300 rounded-lg px-3 py-2.5 transition-all duration-200 text-left hover:shadow-md"
@@ -257,7 +258,7 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                               </svg>
                             )}
                           </div>
-                        </button>
+                        </Button>
                       ))}
                     </div>
                   )}
@@ -324,3 +325,5 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
 };
 
 export default CitySelectorModal;
+
+

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
+import { Button } from "../ui/button";
 
 const DATE_FILTERS = ["today", "tomorrow", "weekend"];
 
@@ -111,14 +112,14 @@ const EventFilters = ({ filters, setFilters }) => {
               { label: "Free", value: "free" },
               { label: "Paid", value: "paid" },
             ].map((price) => (
-              <button
+              <Button
                 key={price.value}
                 type="button"
                 onClick={() => setPriceFilter(price.value)}
                 className={chipClass(selectedPrice === price.value)}
               >
                 {price.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -130,7 +131,7 @@ const EventFilters = ({ filters, setFilters }) => {
 
           <div className="mt-2.5 flex flex-wrap gap-2">
             {DATE_FILTERS.map((dateKey) => (
-              <button
+              <Button
                 key={dateKey}
                 type="button"
                 onClick={() =>
@@ -142,7 +143,7 @@ const EventFilters = ({ filters, setFilters }) => {
                 className={chipClass(filters.date === dateKey, true)}
               >
                 {dateKey}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -154,7 +155,7 @@ const EventFilters = ({ filters, setFilters }) => {
 
           <div className="mt-2.5 flex flex-wrap gap-2">
             {MODE_FILTERS.map((mode) => (
-              <button
+              <Button
                 key={mode.label}
                 type="button"
                 onClick={() =>
@@ -166,14 +167,14 @@ const EventFilters = ({ filters, setFilters }) => {
                 className={chipClass(filters.mode === mode.value)}
               >
                 {mode.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
       </div>
 
       <div className="relative mt-4 rounded-2xl border border-slate-200/80 bg-white p-2 shadow-[0_10px_24px_-24px_rgba(15,23,42,0.55)]">
-        <button
+        <Button
           type="button"
           onClick={() =>
             setFilters({
@@ -191,7 +192,7 @@ const EventFilters = ({ filters, setFilters }) => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 4v8h8" />
           </svg>
           <span>Reset filters</span>
-        </button>
+        </Button>
       </div>
     </div>
   );
@@ -209,3 +210,5 @@ EventFilters.propTypes = {
 };
 
 export default EventFilters;
+
+

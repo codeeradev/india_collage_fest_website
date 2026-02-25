@@ -9,6 +9,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import EmptyState from "../components/EmptyState";
 import { formatDate } from "../utils/dateFormater";
+import { Button } from "../components/ui/button";
 import {
   resolveEventImageUrl,
   resolveMediaUrl,
@@ -332,13 +333,13 @@ const Profile = () => {
             </div>
             <div className="flex flex-wrap items-center gap-3">
               {dirty ? (
-                <button
+                <Button
                   onClick={saveProfile}
                   disabled={saving}
                   className="px-5 py-2.5 bg-blue-600 text-white rounded-full font-semibold shadow-sm hover:bg-blue-700 transition disabled:opacity-70"
                 >
                   {saving ? "Saving..." : "Save changes"}
-                </button>
+                </Button>
               ) : (
                 <div className="hidden sm:flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-full">
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -346,7 +347,7 @@ const Profile = () => {
                 </div>
               )}
 
-              <button
+              <Button
                 onClick={() => {
                   logout();
                   navigate("/login");
@@ -354,7 +355,7 @@ const Profile = () => {
                 className="px-5 py-2.5 bg-slate-900 text-white rounded-full font-semibold hover:bg-slate-800 transition"
               >
                 Logout
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -366,7 +367,7 @@ const Profile = () => {
                 <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 relative overflow-hidden">
                   <div className="absolute -top-16 -right-16 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl" />
                   <div className="relative flex flex-col items-center text-center">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
                       className="group relative"
@@ -408,7 +409,7 @@ const Profile = () => {
                           <circle cx="12" cy="13" r="3" />
                         </svg>
                       </div>
-                    </button>
+                    </Button>
 
                     <input
                       ref={fileInputRef}
@@ -425,13 +426,13 @@ const Profile = () => {
                       {draft.email || "Add your email address"}
                     </p>
 
-                    <button
+                    <Button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
                       className="mt-4 inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-200 rounded-full hover:bg-blue-100 transition"
                     >
                       Change photo
-                    </button>
+                    </Button>
 
                     <div className="mt-6 grid grid-cols-2 gap-3 w-full">
                       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-left">
@@ -562,7 +563,7 @@ const Profile = () => {
 
                       {eventsPagination.totalPages > 1 && (
                         <div className="mt-6 flex items-center justify-between text-sm text-slate-600">
-                          <button
+                          <Button
                             disabled={eventsPage <= 1}
                             onClick={() =>
                               setEventsPage((p) => Math.max(1, p - 1))
@@ -570,12 +571,12 @@ const Profile = () => {
                             className="px-4 py-2 rounded-full border border-slate-200 disabled:opacity-50 hover:border-blue-300 hover:text-blue-700 transition"
                           >
                             Previous
-                          </button>
+                          </Button>
                           <span>
                             Page {eventsPagination.page} of{" "}
                             {eventsPagination.totalPages}
                           </span>
-                          <button
+                          <Button
                             disabled={eventsPage >= eventsPagination.totalPages}
                             onClick={() =>
                               setEventsPage((p) =>
@@ -585,7 +586,7 @@ const Profile = () => {
                             className="px-4 py-2 rounded-full border border-slate-200 disabled:opacity-50 hover:border-blue-300 hover:text-blue-700 transition"
                           >
                             Next
-                          </button>
+                          </Button>
                         </div>
                       )}
                     </>
@@ -743,12 +744,12 @@ const Profile = () => {
             </div>
 
             <div className="mt-4">
-              <button className="modal-btn" onClick={saveEvent} disabled={eventSaving}>
+              <Button className="modal-btn" onClick={saveEvent} disabled={eventSaving}>
                 {eventSaving ? "Saving..." : "Save Changes"}
-              </button>
-              <button className="modal-cancel" onClick={closeEditModal}>
+              </Button>
+              <Button className="modal-cancel" onClick={closeEditModal}>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -869,12 +870,12 @@ const EventCard = ({ event, onEdit }) => {
           >
             View
           </Link>
-          <button
+          <Button
             onClick={onEdit}
             className="px-3 py-1.5 text-sm rounded-full bg-blue-600 text-white hover:bg-blue-700 transition"
           >
             Edit
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -925,3 +926,5 @@ const ProfileSkeleton = () => (
 );
 
 export default Profile;
+
+

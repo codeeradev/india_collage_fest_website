@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
+import { Button } from "../ui/button";
 
 const BannerCropper = ({ file, onDone, onCancel }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -55,12 +56,12 @@ const BannerCropper = ({ file, onDone, onCancel }) => {
         </div>
 
         <div className="flex justify-between mt-4">
-          <button onClick={onCancel} className="btn-secondary">
+          <Button onClick={onCancel} className="btn-secondary">
             Cancel
-          </button>
-          <button onClick={createCroppedImage} className="btn-primary">
+          </Button>
+          <Button onClick={createCroppedImage} className="btn-primary">
             Done
-          </button>
+          </Button>
         </div>
       </div>
     </div>,
@@ -75,3 +76,5 @@ BannerCropper.propTypes = {
 };
 
 export default BannerCropper;
+
+

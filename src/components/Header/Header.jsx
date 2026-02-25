@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar";
 import CitySelectorModal from "./CitySelectorModal";
 import { AuthContext } from "../Auth/AuthContext";
 import { useCity } from "../../context/CityContext";
+import { Button } from "../ui/button";
 
 const Header = () => {
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -48,12 +49,12 @@ const Header = () => {
               </Link>
 
               <div ref={exploreRef} className="relative hidden lg:block">
-                <button
+                <Button
                   type="button"
                   onClick={() => setExploreOpen((prev) => !prev)}
                   className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_8px_16px_-14px_rgba(15,23,42,0.45)] transition-all hover:border-blue-300 hover:text-blue-700"
                 >
-                  <span>Explore</span>
+                  <span>Discover</span>
                   <svg
                     className={`h-4 w-4 transition-transform duration-200 ${
                       exploreOpen ? "rotate-180" : ""
@@ -65,7 +66,7 @@ const Header = () => {
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
-                </button>
+                </Button>
 
                 {exploreOpen && (
                   <div className="absolute left-0 top-full mt-3 z-50 animate-enter-up">
@@ -82,7 +83,7 @@ const Header = () => {
             </div>
 
             <div className="flex shrink-0 items-center gap-2 md:gap-2.5">
-              <button
+              <Button
                 type="button"
                 className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-700 md:px-4"
                 onClick={() => setCityModalOpen(true)}
@@ -93,44 +94,47 @@ const Header = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                <span className="max-w-[110px] truncate">{city ? city.city : "Select City"}</span>
-              </button>
+                <span className="max-w-[110px] truncate">{city ? city.city : "Choose City"}</span>
+              </Button>
 
-              <button
+              <Button
                 type="button"
                 onClick={handleCreateEvent}
                 className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-400 hover:text-blue-700 md:px-4"
                 aria-label="Create event"
                 title="Create Event"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 3v3m8-3v3M4 10h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 12v5m-2.5-2.5h5" />
                 </svg>
-                <span>Create Event</span>
-              </button>
+                <span>Publish Event</span>
+              </Button>
 
               {user ? (
-                <button
+                <Button
                   type="button"
                   onClick={() => navigate("/profile")}
-                  className="group flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white pl-2 pr-3 py-1.5 shadow-sm transition-all hover:border-blue-300 hover:shadow-md"
+                  variant="outline"
+                  className="group h-auto shrink-0 gap-2 rounded-full border-blue-100 bg-slate-50/95 pl-2 pr-3.5 py-1.5 shadow-[0_10px_22px_-16px_rgba(30,64,175,0.38)] ring-1 ring-white transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-[0_14px_28px_-16px_rgba(30,64,175,0.45)]"
                   title="Profile"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 text-sm font-bold uppercase text-white">
-                    {user?.name?.charAt(0) || "U"}
+                  <div className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 text-sm font-bold uppercase text-white shadow-[0_8px_18px_-10px_rgba(37,99,235,0.65)]">
+                      {user?.name?.charAt(0) || "U"}
+                    <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border border-white bg-emerald-400" />
                   </div>
-                  <span className="text-sm font-semibold text-slate-700 group-hover:text-blue-700 max-w-[120px] truncate">
+                  <span className="max-w-[130px] truncate text-sm font-semibold text-slate-800 group-hover:text-blue-800">
                     {user?.name || "Profile"}
                   </span>
-                </button>
+                </Button>
               ) : (
-                <button
+                <Button
                   type="button"
                   onClick={() => navigate("/login")}
                   className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-all hover:bg-slate-800"
                 >
-                  Login
-                </button>
+                  Sign In
+                </Button>
               )}
             </div>
           </div>
@@ -153,3 +157,4 @@ const Header = () => {
 };
 
 export default Header;
+

@@ -3,6 +3,7 @@ import { ENDPOINTS } from "../api/endpoints";
 import { get, post } from "../api/apiClient";
 import { showAlert } from "../components/AlertAndLoader/UIComponents";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 import Footer from "../components/Footer";
 import Header from "../components/Header/Header";
@@ -893,7 +894,7 @@ const CreateEvent = () => {
                           )}
                           {!addressLoading &&
                             addressResults.map((item) => (
-                              <button
+                              <Button
                                 key={item.place_id}
                                 type="button"
                                 onMouseDown={() => {
@@ -924,7 +925,7 @@ const CreateEvent = () => {
                                 }}
                               >
                                 {item.display_name}
-                              </button>
+                              </Button>
                             ))}
                         </div>
                       )}
@@ -1094,20 +1095,20 @@ const CreateEvent = () => {
 
                   {/* pill toggle */}
                   <div className="ce-pill">
-                    <button
+                    <Button
                       className={form.visibility === "public" ? "active" : ""}
                       onClick={() => setForm({ ...form, visibility: "public" })}
                     >
                       Public
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       className={form.visibility === "private" ? "active" : ""}
                       onClick={() =>
                         setForm({ ...form, visibility: "private" })
                       }
                     >
                       Private
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </Section>
@@ -1140,7 +1141,7 @@ const CreateEvent = () => {
                 <span style={{ fontSize: 13, color: "#94a3b8" }}>
                   * Title, Category & City are required
                 </span>
-                <button
+                <Button
                   className="ce-publish"
                   onClick={submitEvent}
                   disabled={captchaEnabled && !captchaToken}
@@ -1163,7 +1164,7 @@ const CreateEvent = () => {
                   }}
                 >
                   Publish Event -&gt;
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -1176,4 +1177,6 @@ const CreateEvent = () => {
 };
 
 export default CreateEvent;
+
+
 

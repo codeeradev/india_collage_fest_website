@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const menuItems = [
   {
     title: "Events",
-    subtitle: "Now Live",
+    subtitle: "Curated listings",
     href: "/events",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -13,7 +13,7 @@ const menuItems = [
   },
   {
     title: "Brands",
-    subtitle: "Now Live",
+    subtitle: "Partner showcases",
     href: "/brands",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     title: "Creators",
-    subtitle: "Join the waitlist",
+    subtitle: "Creator network",
     href: "/creators",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@ const menuItems = [
   },
   {
     title: "Coupons",
-    subtitle: "Lite",
+    subtitle: "Member offers",
     href: "/coupons",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ const menuItems = [
   },
   {
     title: "Blog",
-    subtitle: "New",
+    subtitle: "Insights",
     href: "/blog",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

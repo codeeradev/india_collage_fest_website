@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import { Button } from "../components/ui/button";
 
 const SHELL = "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8";
 
@@ -237,12 +238,12 @@ export default function InfoPage() {
               <h2 className="mt-5 text-2xl font-semibold text-slate-900">Page Not Found</h2>
               <p className="mt-2 text-slate-600">The page you are looking for does not exist.</p>
 
-              <button
+              <Button
                 onClick={() => navigate("/")}
                 className="mt-6 rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 Go Home
-              </button>
+              </Button>
             </div>
           </div>
         </main>
@@ -261,9 +262,9 @@ export default function InfoPage() {
 
         <div className={`${SHELL} relative z-10`}>
           <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
-            <button onClick={() => navigate("/")} className="transition-colors hover:text-blue-700">
+            <Button onClick={() => navigate("/")} className="transition-colors hover:text-blue-700">
               Home
-            </button>
+            </Button>
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -370,12 +371,12 @@ export default function InfoPage() {
                   ? "We are here to help you discover events and create better experiences."
                   : "Reach out to our team for any questions about policies, account usage, or platform support."}
               </p>
-              <button
+              <Button
                 onClick={() => navigate(page === "contact" ? "/events" : "/info/contact")}
                 className="mt-5 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
               >
                 {page === "contact" ? "Explore Events" : "Contact Us"}
-              </button>
+              </Button>
             </div>
           </section>
 
@@ -383,7 +384,7 @@ export default function InfoPage() {
             {Object.keys(contentMap)
               .filter((key) => key !== page)
               .map((key) => (
-                <button
+                <Button
                   key={key}
                   onClick={() => navigate(`/info/${key}`)}
                   className="group rounded-2xl border border-slate-200 bg-white p-5 text-left transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
@@ -395,7 +396,7 @@ export default function InfoPage() {
                     {contentMap[key].title}
                   </h3>
                   <p className="mt-2 text-sm text-slate-600">Learn more -&gt;</p>
-                </button>
+                </Button>
               ))}
           </section>
         </div>
@@ -404,4 +405,6 @@ export default function InfoPage() {
     </div>
   );
 }
+
+
 

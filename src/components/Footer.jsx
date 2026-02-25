@@ -79,7 +79,7 @@ const Footer = () => {
         isolation: "isolate",
         opacity: 1,
         background:
-          "radial-gradient(circle at 10% 12%, rgba(37,99,235,0.16) 0%, transparent 34%), radial-gradient(circle at 90% 10%, rgba(30,64,175,0.14) 0%, transparent 32%), linear-gradient(180deg, #06122c 0%, #081634 55%, #0a1a3b 100%)",
+          "radial-gradient(circle at 10% 12%, rgba(37,99,235,0.14) 0%, transparent 36%), radial-gradient(circle at 90% 10%, rgba(30,64,175,0.12) 0%, transparent 34%), linear-gradient(180deg, #0f172a 0%, #11203f 55%, #1e3a8a 100%)",
         borderTop: "1px solid rgba(148, 163, 184, 0.26)",
         color: "#e2e8f0",
       }}

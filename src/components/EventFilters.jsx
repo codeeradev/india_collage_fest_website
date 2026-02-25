@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Button } from "./ui/button";
 
 const FILTERS = [
   {
@@ -51,7 +52,7 @@ const EventFilters = ({ filter, setFilter }) => {
             {FILTERS.map((item) => {
               const isActive = filter === item.value;
               return (
-                <button
+                <Button
                   key={item.value}
                   type="button"
                   onClick={() => setFilter(item.value)}
@@ -72,7 +73,7 @@ const EventFilters = ({ filter, setFilter }) => {
                       <span className="relative inline-flex h-3 w-3 rounded-full bg-white" />
                     </span>
                   )}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -88,3 +89,5 @@ EventFilters.propTypes = {
 };
 
 export default EventFilters;
+
+

@@ -1,3 +1,4 @@
+import { Button } from "./ui/button";
 /* eslint-disable react/prop-types */
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -54,11 +55,12 @@ const OrganizerCard = ({ org, onClick, index }) => {
   );
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       onClick={onClick}
       style={{ animationDelay: `${index * 80}ms` }}
-      className="group animate-enter-up w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
+      className="group block h-auto w-full rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:bg-white hover:shadow-md"
     >
       <div className="flex items-start gap-3">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
@@ -97,7 +99,7 @@ const OrganizerCard = ({ org, onClick, index }) => {
           <path strokeLinecap="round" strokeLinejoin="round" d="m9 18 6-6-6-6" />
         </svg>
       </div>
-    </button>
+    </Button>
   );
 };
 
@@ -218,16 +220,16 @@ const FeaturedOrganizers = () => {
             <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700">Fast publishing</span>
           </div>
 
-          <button
+          <Button
             type="button"
             onClick={() => setOpen(true)}
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl"
+            className="mt-6 inline-flex items-center gap-2 rounded-full !bg-blue-600 px-6 py-3 text-sm font-semibold !text-white transition-all hover:-translate-y-0.5 hover:!bg-blue-700 hover:shadow-xl"
           >
             Become an Organizer
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="m9 18 6-6-6-6" />
             </svg>
-          </button>
+          </Button>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 text-slate-700 shadow-sm">
@@ -255,3 +257,5 @@ const FeaturedOrganizers = () => {
 };
 
 export default FeaturedOrganizers;
+
+

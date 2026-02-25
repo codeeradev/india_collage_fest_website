@@ -7,6 +7,7 @@ import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 import EmptyState from "../components/EmptyState";
 import { resolveEventImageUrl, withImageFallback } from "../utils/mediaUrl";
+import { Button } from "../components/ui/button";
 
 const parseBool = (value) => value === "true" || value === "1";
 const parseMode = (value) =>
@@ -107,13 +108,13 @@ const Events = () => {
               placeholder="Search events, concerts, workshops..."
               className="w-full border border-slate-200 rounded-full px-5 py-3 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-300 transition"
             />
-            <button
+            <Button
               type="button"
               onClick={applySearch}
               className="rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
             >
               Search
-            </button>
+            </Button>
           </div>
         </section>
 
@@ -211,3 +212,5 @@ const Events = () => {
 };
 
 export default Events;
+
+

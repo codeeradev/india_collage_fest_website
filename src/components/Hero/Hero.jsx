@@ -5,6 +5,7 @@ import { ENDPOINTS } from "../../api/endpoints";
 import { fetchHeroContent } from "../../api/heroService";
 import { DEFAULT_HERO_CATEGORIES } from "../../config/heroDefaults";
 import VideoCarousel from "./VideoCarousel";
+import { Button } from "../ui/button";
 
 const PILL_COLORS = [
   { bg: "rgba(14,165,233,0.10)", border: "rgba(14,165,233,0.35)", color: "#0369a1" },
@@ -105,7 +106,7 @@ const Hero = () => {
 
         <div className="animate-enter-up mt-7 w-full max-w-4xl rounded-2xl border border-slate-200 bg-white/95 p-2.5 shadow-[0_16px_36px_-24px_rgba(15,23,42,0.35)]">
           <div className="grid grid-cols-1 gap-2.5 md:grid-cols-[1.45fr_0.85fr_auto]">
-            <button
+            <Button
               type="button"
               onClick={() => navigate("/events")}
               className="flex min-h-[52px] items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 text-left text-sm font-medium text-slate-600 transition-colors hover:border-blue-200 hover:bg-white"
@@ -124,9 +125,9 @@ const Hero = () => {
                 <path d="m21 21-4.3-4.3" />
               </svg>
               <span>Search events</span>
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               onClick={() => navigate("/events")}
               className="flex min-h-[52px] items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 text-left text-xs font-semibold text-slate-500 transition-colors hover:border-blue-200 hover:bg-white sm:text-sm"
@@ -147,15 +148,15 @@ const Hero = () => {
                 <line x1="3" y1="10" x2="21" y2="10" />
               </svg>
               <span>Any date</span>
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
               onClick={() => navigate("/events")}
               className="min-h-[52px] rounded-xl bg-slate-900 px-6 text-sm font-semibold text-white transition-colors hover:bg-slate-800"
             >
               Search
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -164,7 +165,7 @@ const Hero = () => {
             const color = PILL_COLORS[index % PILL_COLORS.length];
 
             return (
-              <button
+              <Button
                 key={cat._id}
                 type="button"
                 onClick={() => navigate(`/events?category=${cat._id}`)}
@@ -176,7 +177,7 @@ const Hero = () => {
                 }}
               >
                 {cat.name}
-              </button>
+              </Button>
             );
           })}
         </div>
@@ -204,3 +205,5 @@ const Hero = () => {
 };
 
 export default Hero;
+
+

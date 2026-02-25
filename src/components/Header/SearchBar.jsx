@@ -43,7 +43,7 @@ const SearchBar = () => {
           typingRef.current = true;
           setValue(e.target.value);
         }}
-        placeholder="Search events"
+        placeholder="Search events, venues, or organizers"
         className="w-full bg-transparent text-sm font-medium text-slate-800 outline-none placeholder:font-medium placeholder:text-slate-400"
       />
     </div>

@@ -7,6 +7,8 @@ import { showAlert } from "../components/AlertAndLoader/UIComponents";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../components/Auth/AuthContext";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -59,51 +61,54 @@ const Login = () => {
       {/* ================= EMAIL STEP ================= */}
       {step === "email" && (
         <>
-          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
-            Welcome back
-          </h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold text-slate-900">Welcome back</h2>
+            <p className="mt-2 text-sm text-slate-500">Sign in with your email to receive a secure verification code.</p>
+          </div>
 
-          <input
+          <label className="mb-2 block text-sm font-medium text-slate-700">Email address</label>
+
+          <Input
             type="email"
             placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-slate-300 rounded-xl px-4 py-3.5 mb-6 focus:ring-2 focus:ring-rose-400 outline-none"
+            className="mb-6 h-12 rounded-xl border-slate-300 bg-slate-50/70 px-4 text-slate-900 shadow-inner focus-visible:border-blue-400 focus-visible:bg-white focus-visible:ring-4 focus-visible:ring-blue-100"
           />
 
-          <button
+          <Button
             onClick={sendOtp}
-            style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
-            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm"
+            className="h-12 w-full rounded-xl !bg-blue-700 text-base font-semibold !text-white shadow-[0_14px_28px_-18px_rgba(29,78,216,0.75)] transition-all hover:!bg-blue-800"
           >
-            Continue
-          </button>
+            Send OTP
+          </Button>
         </>
       )}
 
       {/* ================= OTP STEP ================= */}
       {step === "otp" && (
         <>
-          <h2 className="text-2xl font-semibold mb-6 text-slate-900">
-            Enter verification code
-          </h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold text-slate-900">Enter verification code</h2>
+            <p className="mt-2 text-sm text-slate-500">A 6-digit OTP was sent to <span className="font-medium text-slate-700">{email}</span>.</p>
+          </div>
 
           <OtpInput value={otp} onChange={setOtp} />
 
-          <button
+          <Button
             onClick={verifyOtp}
-            style={{ backgroundColor: "#fb5f6a", color: "#fff" }}
-            className="w-full py-3.5 rounded-xl font-semibold text-base shadow-sm mt-6"
+            className="mt-6 h-12 w-full rounded-xl !bg-blue-700 text-base font-semibold !text-white shadow-[0_14px_28px_-18px_rgba(29,78,216,0.75)] transition-all hover:!bg-blue-800"
           >
             Verify & Login
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={sendOtp}
-            className="w-full text-sm text-slate-500 mt-4"
+            variant="ghost"
+            className="mt-4 w-full text-sm font-medium !text-slate-600 transition-colors hover:!text-blue-700"
           >
             Resend OTP
-          </button>
+          </Button>
         </>
       )}
     </AuthLayout>

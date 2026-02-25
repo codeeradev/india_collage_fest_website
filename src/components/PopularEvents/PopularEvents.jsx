@@ -172,7 +172,7 @@ export default PopularEvents;
 /* ================= FILTER BUTTON ================= */
 
 const FilterButton = ({ children, active, onClick, icon }) => (
-  <button
+  <Button
     onClick={onClick}
     style={
       active
@@ -210,7 +210,7 @@ const FilterButton = ({ children, active, onClick, icon }) => (
         <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
       </span>
     )}
-  </button>
+  </Button>
 );
 FilterButton.propTypes = {
   children: PropTypes.node.isRequired,
@@ -218,5 +218,6 @@ FilterButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   icon: PropTypes.node,
 };
+
 
 

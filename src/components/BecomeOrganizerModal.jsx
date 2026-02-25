@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { ENDPOINTS } from "../api/endpoints";
 import { post, get } from "../api/apiClient";
 import TurnstileCaptcha from "./Captcha/TurnstileCaptcha";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 
 // eslint-disable-next-line react/prop-types
 const BecomeOrganizerModal = ({ onClose }) => {
@@ -33,6 +35,14 @@ const BecomeOrganizerModal = ({ onClose }) => {
     document.body.style.overflow = "hidden";
     return () => (document.body.style.overflow = "auto");
   }, []);
+
+  useEffect(() => {
+    const onEscape = (event) => {
+      if (event.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onEscape);
+    return () => window.removeEventListener("keydown", onEscape);
+  }, [onClose]);
 
   // fetch cities
   useEffect(() => {
@@ -111,16 +121,40 @@ const BecomeOrganizerModal = ({ onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-box">
-
-        <h2 className="modal-title">Become an Organizer</h2>
+    <div
+      className="fixed inset-0 z-[99999] flex items-start justify-center bg-slate-950/55 px-4 pb-8 pt-20 backdrop-blur-sm md:pt-24"
+      onMouseDown={onClose}
+    >
+      <div
+        className="w-full max-w-[460px] max-h-[calc(100vh-7rem)] overflow-y-auto rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_34px_80px_-42px_rgba(15,23,42,0.45)] [scrollbar-width:thin] [scrollbar-color:rgba(100,116,139,0.7)_transparent] md:max-h-[calc(100vh-9rem)] md:p-7"
+        onMouseDown={(event) => event.stopPropagation()}
+      >
+        <div className="mb-5 flex items-start justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-semibold text-slate-900">Become an Organizer</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              {step === 1 ? "Share your basic details to receive OTP." : "Enter the verification code sent to your email."}
+            </p>
+          </div>
+          <Button
+            type="button"
+            onClick={onClose}
+            variant="ghost"
+            size="icon"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
+            aria-label="Close modal"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </Button>
+        </div>
 
         {/* STEP 1 */}
         {step === 1 && (
           <>
-            <input
-              className="input"
+            <Input
+              className="mb-3 h-11 rounded-xl border-slate-300 bg-slate-50 px-3.5"
               placeholder="Name"
               value={form.name}
               onChange={(e) =>
@@ -128,8 +162,8 @@ const BecomeOrganizerModal = ({ onClose }) => {
               }
             />
 
-            <input
-              className="input"
+            <Input
+              className="mb-3 h-11 rounded-xl border-slate-300 bg-slate-50 px-3.5"
               placeholder="Email"
               value={form.email}
               onChange={(e) =>
@@ -137,8 +171,8 @@ const BecomeOrganizerModal = ({ onClose }) => {
               }
             />
 
-            <input
-              className="input"
+            <Input
+              className="mb-3 h-11 rounded-xl border-slate-300 bg-slate-50 px-3.5"
               placeholder="Phone"
               maxLength={10}
               value={form.phone}
@@ -151,7 +185,7 @@ const BecomeOrganizerModal = ({ onClose }) => {
             />
 
             <select
-              className="input"
+              className="mb-4 h-11 w-full rounded-xl border border-slate-300 bg-slate-50 px-3.5 text-sm text-slate-700 outline-none transition-all focus:border-blue-400 focus:bg-white focus:ring-4 focus:ring-blue-100"
               value={form.location}
               onChange={(e) =>
                 setForm({ ...form, location: e.target.value })
@@ -166,17 +200,17 @@ const BecomeOrganizerModal = ({ onClose }) => {
             </select>
 
             {/* IMAGE UPLOAD */}
-            <label className="upload-box">
+            <label className="mb-4 flex h-[190px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 transition-all hover:border-blue-400 hover:bg-blue-50/40">
               {!form.image ? (
-                <div className="upload-placeholder">
-                  <p>Upload Profile Photo</p>
-                  <span>PNG / JPG</span>
+                <div className="text-center">
+                  <p className="text-sm font-semibold text-slate-700">Upload Profile Photo</p>
+                  <span className="text-xs text-slate-500">PNG / JPG</span>
                 </div>
               ) : (
                 <img
                   src={URL.createObjectURL(form.image)}
                   alt="preview"
-                  className="upload-image"
+                  className="h-full w-full rounded-2xl object-cover"
                 />
               )}
 
@@ -199,14 +233,15 @@ const BecomeOrganizerModal = ({ onClose }) => {
               />
             </div>
 
-            <div className="modal-actions">
-              <button
+            <div className="mt-4">
+              <Button
+                type="button"
                 onClick={handleSendOtp}
                 disabled={loading || (captchaEnabled && !captchaToken)}
-                className="modal-btn"
+                className="h-11 w-full rounded-full !bg-blue-700 !text-white hover:!bg-blue-800"
               >
                 {loading ? "Sending OTP..." : "Send OTP"}
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -214,8 +249,8 @@ const BecomeOrganizerModal = ({ onClose }) => {
         {/* STEP 2 */}
         {step === 2 && (
           <>
-            <input
-              className="input text-center tracking-widest"
+            <Input
+              className="h-11 rounded-xl border-slate-300 bg-slate-50 px-3.5 text-center font-mono tracking-[0.42em]"
               placeholder="Enter OTP"
               maxLength={6}
               value={otp}
@@ -224,25 +259,26 @@ const BecomeOrganizerModal = ({ onClose }) => {
               }
             />
 
-            <div className="modal-actions">
-              <button
+            <div className="mt-4">
+              <Button
+                type="button"
                 onClick={handleVerifyOtp}
                 disabled={loading || otp.length !== 6}
-                className="modal-btn"
+                className="h-11 w-full rounded-full !bg-blue-700 !text-white hover:!bg-blue-800"
               >
                 {loading ? "Verifying..." : "Verify OTP"}
-              </button>
+              </Button>
             </div>
           </>
         )}
 
-        <button onClick={onClose} className="modal-cancel">
+        <Button variant="ghost" onClick={onClose} className="mt-3 w-full text-sm font-medium text-slate-500 transition-colors hover:text-slate-700">
           Cancel
-        </button>
-
+        </Button>
       </div>
     </div>
   );
 };
 
 export default BecomeOrganizerModal;
+

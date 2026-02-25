@@ -3,6 +3,7 @@ import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
 import { useNavigate } from "react-router-dom";
 import { resolveMediaUrl, withImageFallback } from "../../utils/mediaUrl";
+import { Button } from "../ui/button";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -49,14 +50,15 @@ const Categories = () => {
           </p>
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={() => navigate("/events")}
-          className="inline-flex h-auto items-center gap-1.5 p-0 text-sm font-semibold text-primary transition-colors hover:text-primary/90 md:text-base"
+          className="h-auto rounded-full px-3 py-1.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-800 md:text-base"
         >
           View all
           <span aria-hidden="true">-&gt;</span>
-        </button>
+        </Button>
       </div>
 
       <div className="flex flex-wrap gap-3 md:gap-4">
@@ -73,12 +75,13 @@ const Categories = () => {
 
         {!loading &&
           categories.map((cat, index) => (
-            <button
+            <Button
               key={cat?._id || cat?.id || `category-${index}`}
               type="button"
+              variant="ghost"
               onClick={() => navigate(`/events?category=${cat?._id || cat?.id || ""}`)}
               style={{ animationDelay: `${index * 70}ms` }}
-              className="group relative h-[200px] w-[170px] animate-enter-up rounded-3xl border border-border bg-card px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_26px_-18px_rgba(15,23,42,0.35)]"
+              className="group relative h-[200px] w-[170px] animate-enter-up rounded-3xl border border-border bg-card px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-[0_12px_26px_-18px_rgba(15,23,42,0.35)]"
             >
               <div className="absolute inset-0 rounded-3xl bg-muted/35 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
@@ -95,7 +98,7 @@ const Categories = () => {
 
                 <p className="mt-4 text-sm font-semibold leading-tight text-foreground md:text-base">{cat?.name || "Category"}</p>
               </div>
-            </button>
+            </Button>
           ))}
 
         {!loading && categories.length === 0 && (
@@ -109,3 +112,5 @@ const Categories = () => {
 };
 
 export default Categories;
+
+
