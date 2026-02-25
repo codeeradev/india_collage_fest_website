@@ -32,10 +32,10 @@ const FeaturedEvents = () => {
       {/* ===== HEADER ===== */}
       <header className="mb-6">
         <h2 className="text-xl md:text-3xl font-semibold text-gray-900">
-          Featured Events
+          Inspired Ideas
         </h2>
         <p className="text-gray-600 text-sm md:text-base mt-1 md:mt-2">
-          Explore top events and unforgettable experiences
+          Featured events curated just for you
         </p>
       </header>
 

@@ -144,15 +144,11 @@ const FeaturedOrganizers = () => {
   const summary = useMemo(() => {
     const totalOrganizers = organizers.length;
     const totalEvents = organizers.reduce((acc, org) => acc + toEventCount(org), 0);
-    const cities = new Set(
-      organizers
-        .map((org) =>
-          pickFirstValue(org?.location?.city, org?.city, ""),
-        )
-        .filter(Boolean),
-    ).size;
+    const verifiedOrganizers = organizers.filter((org) =>
+      Boolean(pickFirstValue(org?.isVerified, org?.verified, org?.isApproved, false)),
+    ).length;
 
-    return { totalOrganizers, totalEvents, cities };
+    return { totalOrganizers, totalEvents, verifiedOrganizers };
   }, [organizers]);
 
   return (
@@ -176,7 +172,7 @@ const FeaturedOrganizers = () => {
               {summary.totalEvents} events
             </span>
             <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700">
-              {summary.cities} cities
+              {summary.verifiedOrganizers} verified
             </span>
           </div>
         </div>

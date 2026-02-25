@@ -6,6 +6,8 @@ import { get } from "../../api/apiClient";
 import { ENDPOINTS } from "../../api/endpoints";
 import { useCity } from "../../context/CityContext";
 import EmptyState from "../EmptyState";
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const PopularEvents = () => {
   const [events, setEvents] = useState([]);
@@ -57,7 +59,7 @@ const PopularEvents = () => {
             </h2>
           </div>
           <p className="text-gray-600 text-base lg:text-lg max-w-2xl">
-            Discover the most exciting events and experiences happening near you
+            Dive into the music scenes you love
           </p>
         </div>
 
@@ -136,21 +138,11 @@ const PopularEvents = () => {
         )}
       </div>
 
-      {/* Results count */}
       {!loading && events.length > 0 && (
-        <div className="mt-8 text-center">
-          <p className="text-gray-600">
-            Showing <span className="font-semibold text-gray-900">{events.length}</span>{" "}
-            {events.length === 1 ? 'event' : 'events'}
-            {filter !== "all" && (
-              <span>
-                {" "}for{" "}
-                <span className="font-semibold text-purple-600">
-                  {filter === "week" ? "this week" : "this month"}
-                </span>
-              </span>
-            )}
-          </p>
+        <div className="mt-8 flex justify-center">
+          <Button asChild size="lg" className="rounded-full px-8">
+            <Link to="/events">Discover More Events</Link>
+          </Button>
         </div>
       )}
 
@@ -182,6 +174,15 @@ export default PopularEvents;
 const FilterButton = ({ children, active, onClick, icon }) => (
   <button
     onClick={onClick}
+    style={
+      active
+        ? {
+            backgroundColor: "#1d4ed8",
+            borderColor: "#1d4ed8",
+            color: "#ffffff",
+          }
+        : undefined
+    }
     className={`
       group relative
       flex items-center gap-2
@@ -192,7 +193,7 @@ const FilterButton = ({ children, active, onClick, icon }) => (
       border-2
       ${
         active
-          ? "border-transparent bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 text-white shadow-lg shadow-purple-200"
+          ? "shadow-lg shadow-blue-200"
           : "border-gray-200 bg-white text-gray-700 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700"
       }
     `}
