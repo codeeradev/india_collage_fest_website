@@ -1,4 +1,5 @@
-const DEFAULT_API_BASE_URL = "http://172.93.223.239:3001";
+// const DEFAULT_API_BASE_URL = "http://172.93.223.239:3001";
+const DEFAULT_API_BASE_URL = "https://api.indiacollegefest.com/";
 // const DEFAULT_API_BASE_URL = "http://localhost:3001";
 const envApiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
 

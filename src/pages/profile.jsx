@@ -367,7 +367,7 @@ const Profile = () => {
                 <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 relative overflow-hidden">
                   <div className="absolute -top-16 -right-16 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl" />
                   <div className="relative flex flex-col items-center text-center">
-                    <Button
+                    <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
                       className="group relative"
@@ -409,7 +409,7 @@ const Profile = () => {
                           <circle cx="12" cy="13" r="3" />
                         </svg>
                       </div>
-                    </Button>
+                    </button>
 
                     <input
                       ref={fileInputRef}
