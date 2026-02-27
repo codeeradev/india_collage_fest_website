@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ExploreMenu from "./ExploreMenu";
 import Logo from "./Logo";
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 import CitySelectorModal from "./CitySelectorModal";
 import { AuthContext } from "../Auth/AuthContext";
 import { useCity } from "../../context/CityContext";
@@ -77,11 +77,11 @@ const Header = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex max-w-xl flex-1">
+            {/* <div className="hidden lg:flex max-w-xl flex-1">
               <div className="w-full rounded-full border border-slate-200 bg-slate-50/90 shadow-[0_10px_22px_-18px_rgba(15,23,42,0.5)] transition-all duration-300 hover:border-blue-200 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100">
                 <SearchBar />
               </div>
-            </div>
+            </div> */}
 
             <div className="flex shrink-0 items-center gap-2 md:gap-2.5">
               <Button

@@ -35,7 +35,7 @@ const LandingPage = () => {
             <SectionWrapper
               as="div"
               withVerticalSpacing={false}
-              className="md:hidden py-8 md:py-10 lg:py-12"
+              className="md:hidden py-6 md:py-8 lg:py-10"
             >
               <div className="w-full flex items-center bg-white/95 px-5 py-3.5 rounded-2xl border border-slate-200 shadow-[0_20px_30px_-28px_rgba(15,23,42,0.55)] hover:shadow-[0_20px_30px_-20px_rgba(37,99,235,0.45)] transition-shadow duration-200 group">
                 <svg
@@ -70,7 +70,7 @@ const LandingPage = () => {
                 <SectionWrapper
                   as="div"
                   withVerticalSpacing={false}
-                  className="relative py-8 md:py-10 lg:py-12"
+                  className="relative py-6 md:py-8 lg:py-10"
                 >
                   <Categories />
                 </SectionWrapper>
@@ -80,25 +80,25 @@ const LandingPage = () => {
 
           <main className="relative z-10">
             <RevealOnScroll className="scroll-mt-20" delay={0}>
-              <SectionWrapper withVerticalSpacing={false} className="py-8 md:py-10 lg:py-12">
+              <SectionWrapper withVerticalSpacing={false} className="py-6 md:py-8 lg:py-10">
                 <FeaturedEvents />
               </SectionWrapper>
             </RevealOnScroll>
 
             <RevealOnScroll className="scroll-mt-20" delay={90}>
-              <SectionWrapper withVerticalSpacing={false} className="py-8 md:py-10 lg:py-12">
+              <SectionWrapper withVerticalSpacing={false} className="py-6 md:py-8 lg:py-10">
                 <PopularEvents />
               </SectionWrapper>
             </RevealOnScroll>
 
             <RevealOnScroll className="scroll-mt-20" delay={140}>
-              <SectionWrapper withVerticalSpacing={false} className="py-8 md:py-10 lg:py-12">
+              <SectionWrapper withVerticalSpacing={false} className="py-6 md:py-8 lg:py-10">
                 <FeaturedOrganizers />
               </SectionWrapper>
             </RevealOnScroll>
 
             <RevealOnScroll className="scroll-mt-20" delay={180}>
-              <SectionWrapper withVerticalSpacing={false} className="py-8 md:py-10 lg:py-12">
+              <SectionWrapper withVerticalSpacing={false} className="py-6 md:py-8 lg:py-10">
                 <WhyBookWithUs />
               </SectionWrapper>
             </RevealOnScroll>
