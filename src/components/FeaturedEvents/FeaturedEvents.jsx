@@ -28,7 +28,7 @@ const FeaturedEvents = () => {
   const isEmpty = !loading && events.length === 0;
 
   return (
-    <section className="py-6 relative overflow-hidden">
+    <section className="relative overflow-hidden">
       {/* ===== HEADER ===== */}
       <header className="mb-6">
         <h2 className="text-xl md:text-3xl font-semibold text-gray-900">

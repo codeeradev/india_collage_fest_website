@@ -2,15 +2,13 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import { AuthContext } from "../components/Auth/AuthContext";
 import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 import { formatDate } from "../utils/dateFormater";
 import { resolveEventImageUrl, resolveMediaUrl, withImageFallback } from "../utils/mediaUrl";
-
-const CONTAINER = "max-w-7xl mx-auto px-4 md:px-6 lg:px-8";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -64,24 +62,18 @@ const EventDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-        <Header />
-        <div className="pt-28">
-          <div className={`${CONTAINER} pb-16`}>
+      <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+          <SectionWrapper as="div">
             <LoadingSkeleton />
-          </div>
-        </div>
-        <Footer />
-      </div>
+          </SectionWrapper>
+      </PageLayout>
     );
   }
 
   if (!event) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-        <Header />
-        <div className="pt-28 pb-20">
-          <div className={`${CONTAINER} flex items-center justify-center`}>
+      <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+          <SectionWrapper as="div" className="flex items-center justify-center">
             <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center shadow-sm">
               <h2 className="text-2xl font-semibold text-slate-900">Event not found</h2>
               <p className="mt-2 text-slate-600">This event does not exist or is no longer available.</p>
@@ -98,18 +90,13 @@ const EventDetails = () => {
                 Browse Events
               </Button>
             </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
+          </SectionWrapper>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-      <Header />
-
-      <div className="pt-20">
+    <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
         <section className="relative h-[52vh] min-h-[360px] overflow-hidden bg-slate-950">
           <img
             src={heroImageUrl}
@@ -124,7 +111,8 @@ const EventDetails = () => {
 
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent" />
 
-          <div className={`absolute inset-x-0 bottom-0 pb-10 ${CONTAINER}`}>
+          <div className="absolute inset-x-0 bottom-0">
+            <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
               <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-white/85">
                 <Button type="button" onClick={() => navigate("/")} className="transition hover:text-white">
@@ -166,11 +154,11 @@ const EventDetails = () => {
                 </span>
               </div>
             </div>
+            </div>
           </div>
         </section>
 
-        <section className="pb-16 pt-10">
-          <div className={`${CONTAINER}`}>
+        <SectionWrapper>
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_0.9fr]">
               <div className="space-y-6">
                 <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
@@ -229,12 +217,8 @@ const EventDetails = () => {
                 </div>
               </aside>
             </div>
-          </div>
-        </section>
-      </div>
-
-      <Footer />
-    </div>
+        </SectionWrapper>
+    </PageLayout>
   );
 };
 

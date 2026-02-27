@@ -74,7 +74,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="relative z-20 mt-16 overflow-hidden"
+      className="relative z-20 overflow-hidden"
       style={{
         isolation: "isolate",
         opacity: 1,

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import EventCard from "../components/PopularEvents/EventCard";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
@@ -36,31 +36,27 @@ const OrganiserProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-        <Header />
-        <div className="pt-28 h-[60vh] flex items-center justify-center text-slate-500">
+      <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+        <SectionWrapper as="div" className="flex min-h-[60vh] items-center justify-center text-slate-500">
           Loading organiser...
-        </div>
-        <Footer />
-      </div>
+        </SectionWrapper>
+      </PageLayout>
     );
   }
 
   if (!org) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-        <Header />
-        <div className="pt-28 h-[60vh] flex items-center justify-center">Organiser not found</div>
-        <Footer />
-      </div>
+      <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+        <SectionWrapper as="div" className="flex min-h-[60vh] items-center justify-center">
+          Organiser not found
+        </SectionWrapper>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-      <Header />
-
-      <section className="pt-20">
+    <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+      <section>
         <div className="relative h-[280px] overflow-hidden bg-slate-900">
           <img
             src={resolveMediaUrl(org.bannerImage, "/images/event-placeholder.svg")}
@@ -71,8 +67,8 @@ const OrganiserProfile = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent" />
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 pb-16">
-          <div className="-mt-14 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+        <SectionWrapper as="div">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
               <img
                 src={resolveMediaUrl(org.image, "/images/organizer-placeholder.svg")}
@@ -104,11 +100,9 @@ const OrganiserProfile = () => {
               </div>
             )}
           </div>
-        </div>
+        </SectionWrapper>
       </section>
-
-      <Footer />
-    </div>
+    </PageLayout>
   );
 };
 

@@ -6,6 +6,7 @@ import { fetchHeroContent } from "../../api/heroService";
 import { DEFAULT_HERO_CATEGORIES } from "../../config/heroDefaults";
 import VideoCarousel from "./VideoCarousel";
 import { Button } from "../ui/button";
+import SectionWrapper from "../layout/SectionWrapper";
 
 const PILL_COLORS = [
   { bg: "rgba(14,165,233,0.10)", border: "rgba(14,165,233,0.35)", color: "#0369a1" },
@@ -80,7 +81,7 @@ const Hero = () => {
   }, [heroContent?.stats]);
 
   return (
-    <section className="relative min-h-[700px] overflow-hidden pt-32 md:pt-36 lg:pt-40">
+    <section className="relative min-h-[700px] overflow-hidden">
       <VideoCarousel slides={heroContent.videos} autoRotateMs={heroContent.autoRotateMs} />
 
       <div className="absolute inset-0 z-[3] bg-[linear-gradient(180deg,rgba(248,251,255,0.72)_0%,rgba(244,248,255,0.92)_35%,rgba(240,246,255,0.98)_100%)]" />
@@ -88,7 +89,11 @@ const Hero = () => {
       <div className="pointer-events-none absolute -left-20 top-10 z-[4] h-56 w-56 rounded-full bg-blue-300/35 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 top-20 z-[4] h-52 w-52 rounded-full bg-cyan-300/35 blur-3xl" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-4 pb-14 text-center md:px-6 lg:px-8 lg:pb-20">
+      <SectionWrapper
+        as="div"
+        withVerticalSpacing={false}
+        className="relative z-10 flex w-full flex-col items-center py-8 text-center md:py-10 lg:py-12"
+      >
         <span className="animate-enter-up rounded-full border border-blue-200 bg-white/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-blue-700">
           India&apos;s premier event platform
         </span>
@@ -199,7 +204,7 @@ const Hero = () => {
             ))}
           </div>
         )}
-      </div>
+      </SectionWrapper>
     </section>
   );
 };

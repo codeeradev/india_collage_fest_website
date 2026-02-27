@@ -50,9 +50,10 @@ const Header = () => {
 
               <div ref={exploreRef} className="relative hidden lg:block">
                 <Button
+                  variant="outline"
                   type="button"
                   onClick={() => setExploreOpen((prev) => !prev)}
-                  className="group flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_8px_16px_-14px_rgba(15,23,42,0.45)] transition-all hover:border-blue-300 hover:text-blue-700"
+                  className="group flex items-center gap-2 rounded-full border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-slate-700 shadow-[0_8px_16px_-14px_rgba(15,23,42,0.45)] transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
                 >
                   <span>Discover</span>
                   <svg
@@ -84,8 +85,9 @@ const Header = () => {
 
             <div className="flex shrink-0 items-center gap-2 md:gap-2.5">
               <Button
+                variant="outline"
                 type="button"
-                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-700 md:px-4"
+                className="flex shrink-0 items-center gap-2 rounded-full border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 md:px-4"
                 onClick={() => setCityModalOpen(true)}
                 aria-label="Select city"
                 title={city ? `Current city: ${city.city}` : "Select city"}
@@ -98,9 +100,10 @@ const Header = () => {
               </Button>
 
               <Button
+                variant="outline"
                 type="button"
                 onClick={handleCreateEvent}
-                className="flex shrink-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-400 hover:text-blue-700 md:px-4"
+                className="flex shrink-0 items-center gap-2 rounded-full border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 md:px-4"
                 aria-label="Create event"
                 title="Create Event"
               >

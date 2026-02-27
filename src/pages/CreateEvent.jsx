@@ -5,11 +5,11 @@ import { showAlert } from "../components/AlertAndLoader/UIComponents";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
-import Footer from "../components/Footer";
-import Header from "../components/Header/Header";
 import BannerCropper from "../components/createEvent/BannerCropper";
 import MapPicker from "../components/createEvent/MapPicker";
 import TurnstileCaptcha from "../components/Captcha/TurnstileCaptcha";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 /* Section */
 const IconUpload = () => (
@@ -487,7 +487,7 @@ const CreateEvent = () => {
 
   /* Section */
   return (
-    <>
+    <PageLayout mainClassName="bg-[linear-gradient(180deg,#f0f4ff_0%,#fafbff_40%,#f8fafc_100%)] flex flex-col gap-0">
       <style>{`
                 * { box-sizing: border-box; }
         html, body {
@@ -548,17 +548,7 @@ const CreateEvent = () => {
         .ce-mode-card.active .mode-label { color: #2563eb; }
       `}</style>
 
-      <div
-        className="ce-page"
-        style={{
-          paddingTop: 112,
-          paddingBottom: 80,
-          minHeight: "100vh",
-          background:
-            "linear-gradient(180deg, #f0f4ff 0%, #fafbff 40%, #f8fafc 100%)",
-          position: "relative",
-        }}
-      >
+      <div className="ce-page relative">
         {/* decorative blobs */}
         <div
           style={{
@@ -589,16 +579,16 @@ const CreateEvent = () => {
           }}
         />
 
-        <div
-          style={{
-            maxWidth: 780,
-            margin: "0 auto",
-            padding: "0 20px",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <Header />
+        <SectionWrapper as="div" className="relative z-[1]">
+          <div
+            style={{
+              maxWidth: 780,
+              margin: "0 auto",
+              padding: "0 20px",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
 
           {/* Section */}
           <div style={{ marginBottom: 28 }}>
@@ -1168,11 +1158,10 @@ const CreateEvent = () => {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </SectionWrapper>
       </div>
-
-      <Footer />
-    </>
+    </PageLayout>
   );
 };
 

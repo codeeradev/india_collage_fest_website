@@ -1,10 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import { Button } from "../components/ui/button";
-
-const SHELL = "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 const contentMap = {
   terms: {
@@ -224,10 +222,8 @@ export default function InfoPage() {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-        <Header />
-        <main className="pt-28 pb-20">
-          <div className={SHELL}>
+      <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
+        <SectionWrapper as="div" maxWidthClass="max-w-6xl">
             <div className="mx-auto max-w-2xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-[0_20px_60px_-38px_rgba(15,23,42,0.45)] md:p-12">
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
                 <svg className="h-10 w-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -245,22 +241,17 @@ export default function InfoPage() {
                 Go Home
               </Button>
             </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
+        </SectionWrapper>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-      <Header />
-
-      <main className="relative overflow-hidden pt-28 pb-20">
+    <PageLayout mainClassName="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
         <div className="pointer-events-none absolute -top-32 left-[-8rem] h-72 w-72 rounded-full bg-blue-200/45 blur-3xl" />
         <div className="pointer-events-none absolute top-44 right-[-9rem] h-72 w-72 rounded-full bg-cyan-200/35 blur-3xl" />
 
-        <div className={`${SHELL} relative z-10`}>
+        <SectionWrapper as="div" maxWidthClass="max-w-6xl" className="relative z-10">
           <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
             <Button onClick={() => navigate("/")} className="transition-colors hover:text-blue-700">
               Home
@@ -399,10 +390,8 @@ export default function InfoPage() {
                 </Button>
               ))}
           </section>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </SectionWrapper>
+    </PageLayout>
   );
 }
 

@@ -48,7 +48,7 @@ const PopularEvents = () => {
   };
 
   return (
-    <section className="py-12 lg:py-16">
+    <section>
       {/* ================= HEADER ================= */}
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 mb-10">
         {/* LEFT */}

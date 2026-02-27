@@ -4,11 +4,9 @@ import { Helmet } from "react-helmet";
 
 import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import { resolveMediaUrl, withImageFallback } from "../utils/mediaUrl";
-
-const containerClass = "max-w-6xl mx-auto px-6";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 const getExcerpt = (blog) => {
   if (blog?.excerpt) return blog.excerpt;
@@ -51,7 +49,7 @@ const BlogList = () => {
     "Read the latest stories, guides, and updates from India College Fest.";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-slate-50 to-slate-100/70">
+    <PageLayout mainClassName="bg-gradient-to-b from-white via-slate-50 to-slate-100/70 flex flex-col gap-0">
       <Helmet>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
@@ -61,10 +59,7 @@ const BlogList = () => {
         <link rel="canonical" href={`${origin}/blog`} />
       </Helmet>
 
-      <Header />
-
-      <div className="pt-28 pb-16">
-        <div className={containerClass}>
+      <SectionWrapper as="div" maxWidthClass="max-w-6xl">
           <div className="mb-10">
             <h1 className="text-3xl md:text-5xl font-semibold text-slate-900">
               India Fest Blog
@@ -135,11 +130,8 @@ const BlogList = () => {
               </Link>
             ))}
           </div>
-        </div>
-      </div>
-
-      <Footer />
-    </div>
+      </SectionWrapper>
+    </PageLayout>
   );
 };
 

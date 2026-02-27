@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { DEFAULT_HERO_CONTENT } from "../../config/heroDefaults";
-import { Button } from "../ui/button";
 
 const getSafeSlides = (slides = []) => {
   if (!Array.isArray(slides) || !slides.length) {
@@ -43,10 +42,6 @@ const VideoCarousel = ({ slides, autoRotateMs }) => {
     return () => window.clearInterval(timerRef.current);
   }, [safeSlides.length, activeIndex, autoRotateMs]);
 
-  const handleDotClick = (index) => {
-    setActiveIndex(index);
-  };
-
   return (
     <div className="absolute inset-0">
       {safeSlides.map((slide, index) => (
@@ -70,24 +65,6 @@ const VideoCarousel = ({ slides, autoRotateMs }) => {
           />
         </div>
       ))}
-
-      {safeSlides.length > 1 && (
-        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/20 bg-slate-950/45 px-3 py-2 backdrop-blur-md sm:bottom-8">
-          {safeSlides.map((slide, index) => (
-            <Button
-              key={`${slide.title}-${index}`}
-              type="button"
-              onClick={() => handleDotClick(index)}
-              aria-label={`Show ${slide.title || `video ${index + 1}`}`}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "w-8 bg-white"
-                  : "w-2.5 bg-white/40 hover:bg-white/70"
-              }`}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

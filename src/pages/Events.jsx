@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import EventFilters from "../components/Events/EventFilters";
 import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
 import EmptyState from "../components/EmptyState";
 import { resolveEventImageUrl, withImageFallback } from "../utils/mediaUrl";
 import { Button } from "../components/ui/button";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 const parseBool = (value) => value === "true" || value === "1";
 const parseMode = (value) =>
@@ -91,12 +91,9 @@ const Events = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100/70">
-      <Header />
-
-      <main className="pt-24 pb-16">
+    <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-100/70 flex flex-col gap-0">
         <section className="border-y border-slate-200/70 bg-white/90 backdrop-blur">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-5 flex items-center gap-3">
+          <SectionWrapper as="div" className="flex items-center gap-3 py-5 md:py-5 lg:py-5">
             <input
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
@@ -115,11 +112,11 @@ const Events = () => {
             >
               Search
             </Button>
-          </div>
+          </SectionWrapper>
         </section>
 
 
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 pt-10">
+        <SectionWrapper as="div">
           <div className="mb-7">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">Explore</p>
             <h1 className="mt-2 text-2xl md:text-4xl font-semibold text-slate-900">Discover Events</h1>
@@ -203,11 +200,8 @@ const Events = () => {
               )}
             </section>
           </div>
-        </div>
-      </main>
-
-      <Footer />
-    </div>
+        </SectionWrapper>
+    </PageLayout>
   );
 };
 

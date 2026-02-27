@@ -5,11 +5,11 @@ import { ENDPOINTS } from "../api/endpoints";
 import { AuthContext } from "../components/Auth/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { showAlert } from "../components/AlertAndLoader/UIComponents";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
 import EmptyState from "../components/EmptyState";
 import { formatDate } from "../utils/dateFormater";
 import { Button } from "../components/ui/button";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 import {
   resolveEventImageUrl,
   resolveMediaUrl,
@@ -316,11 +316,8 @@ const Profile = () => {
       : null;
 
   return (
-    <>
-      <Header />
-
-      <main className="bg-gradient-to-b from-slate-50 via-white to-slate-50">
-        <div className="max-w-6xl mx-auto px-6 pt-28 pb-14">
+    <PageLayout mainClassName="bg-gradient-to-b from-slate-50 via-white to-slate-50 flex flex-col gap-0">
+        <SectionWrapper as="div" maxWidthClass="max-w-6xl">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
               <p className="text-sm font-semibold text-blue-600">Account</p>
@@ -595,8 +592,7 @@ const Profile = () => {
               </section>
             </>
           )}
-        </div>
-      </main>
+        </SectionWrapper>
 
       {editOpen && editingEvent && (
         <div className="modal-overlay" onMouseDown={closeEditModal}>
@@ -754,9 +750,7 @@ const Profile = () => {
           </div>
         </div>
       )}
-
-      <Footer />
-    </>
+    </PageLayout>
   );
 };
 

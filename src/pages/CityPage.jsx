@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import Header from "../components/Header/Header";
 import EventFilters from "../components/EventFilters";
 import EventGrid from "../components/EventGrid";
-import Footer from "../components/Footer";
+import PageLayout from "../components/layout/PageLayout";
+import SectionWrapper from "../components/layout/SectionWrapper";
 
 import { get } from "../api/apiClient";
 import { ENDPOINTS } from "../api/endpoints";
@@ -114,8 +114,7 @@ const CityPage = () => {
   }, [cityImage]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-slate-50 to-slate-100/70">
-      <Header />
+    <PageLayout mainClassName="bg-gradient-to-br from-white via-slate-50 to-slate-100/70 flex flex-col gap-0">
 
       {/* SEO SCHEMA */}
       <script
@@ -143,7 +142,7 @@ const CityPage = () => {
       />
 
       <div className="w-full">
-        <div className="mx-auto max-w-7xl px-4 pb-16 pt-24 md:px-6 md:pt-28 lg:px-8">
+        <SectionWrapper as="div">
           <div className="mb-6 rounded-3xl border border-slate-200/80 bg-white/90 p-5 shadow-[0_24px_60px_-46px_rgba(15,23,42,0.55)] md:p-7">
             <div className="grid gap-5 lg:grid-cols-2 lg:items-center">
               <div className="space-y-3 text-left">
@@ -231,11 +230,9 @@ const CityPage = () => {
               </p>
             </div>
           )}
-        </div>
+        </SectionWrapper>
       </div>
-
-      <Footer />
-    </div>
+    </PageLayout>
   );
 };
 
