@@ -61,7 +61,7 @@ const Categories = () => {
         </Button>
       </div>
 
-      <div className="flex flex-wrap gap-3 md:gap-4">
+      <div className="flex gap-3 md:gap-4 overflow-x-auto md:flex-wrap scrollbar-hide pb-2">
         {loading &&
           Array.from({ length: 8 }).map((_, index) => (
             <div
@@ -81,7 +81,7 @@ const Categories = () => {
               variant="ghost"
               onClick={() => navigate(`/events?category=${cat?._id || cat?.id || ""}`)}
               style={{ animationDelay: `${index * 70}ms` }}
-              className="group relative h-[200px] w-[170px] animate-enter-up rounded-3xl border border-border bg-card px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-[0_12px_26px_-18px_rgba(15,23,42,0.35)]"
+              className="group relative h-[200px] w-[170px] shrink-0 animate-enter-up rounded-3xl border border-border bg-card px-4 py-6 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-card hover:shadow-[0_12px_26px_-18px_rgba(15,23,42,0.35)]"
             >
               <div className="absolute inset-0 rounded-3xl bg-muted/35 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
