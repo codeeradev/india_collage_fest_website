@@ -7,12 +7,16 @@ import CitySelectorModal from "./CitySelectorModal";
 import { AuthContext } from "../Auth/AuthContext";
 import { useCity } from "../../context/CityContext";
 import { Button } from "../ui/button";
+import { resolveMediaUrl } from "../../utils/mediaUrl";
 
 const Header = () => {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [cityModalOpen, setCityModalOpen] = useState(false);
+  const [profileImageError, setProfileImageError] = useState(false);
   const { city, setCity } = useCity();
   const { user } = useContext(AuthContext);
+  const profileImageValue = user?.profileImage || user?.image || "";
+  const profileImageSrc = profileImageValue ? resolveMediaUrl(profileImageValue, "") : "";
   const navigate = useNavigate();
   const exploreRef = useRef(null);
 
@@ -26,6 +30,10 @@ const Header = () => {
     document.addEventListener("mousedown", onPointerDown);
     return () => document.removeEventListener("mousedown", onPointerDown);
   }, []);
+
+  useEffect(() => {
+    setProfileImageError(false);
+  }, [profileImageValue]);
 
   const handleCreateEvent = () => {
     if (!user) {
@@ -119,14 +127,23 @@ const Header = () => {
                   type="button"
                   onClick={() => navigate("/profile")}
                   variant="outline"
-                  className="group h-auto shrink-0 gap-2 rounded-full border-blue-100 bg-slate-50/95 pl-2 pr-3.5 py-1.5 shadow-[0_10px_22px_-16px_rgba(30,64,175,0.38)] ring-1 ring-white transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-[0_14px_28px_-16px_rgba(30,64,175,0.45)]"
+                  className="group h-9 shrink-0 items-center gap-1.5 rounded-2xl border border-blue-100 bg-blue-50/70 pl-2 pr-3 py-1 text-slate-700 shadow-sm transition-all hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700"
                   title="Profile"
                 >
-                  <div className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 text-sm font-bold uppercase text-white shadow-[0_8px_18px_-10px_rgba(37,99,235,0.65)]">
-                      {user?.name?.charAt(0) || "U"}
+                  <div className="relative flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg bg-[#0D4FB3] text-xs font-bold uppercase text-white shadow-[0_8px_18px_-10px_rgba(37,99,235,0.65)]">
+                    {profileImageSrc && !profileImageError ? (
+                      <img
+                        src={profileImageSrc}
+                        alt={user?.name || "Profile"}
+                        className="h-full w-full object-cover"
+                        onError={() => setProfileImageError(true)}
+                      />
+                    ) : (
+                      user?.name?.charAt(0) || "U"
+                    )}
                     <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border border-white bg-emerald-400" />
                   </div>
-                  <span className="max-w-[130px] truncate text-sm font-semibold text-slate-800 group-hover:text-blue-800">
+                  <span className="max-w-[120px] truncate text-xs font-semibold text-slate-700 group-hover:text-blue-700">
                     {user?.name || "Profile"}
                   </span>
                 </Button>
