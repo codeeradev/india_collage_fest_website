@@ -32,7 +32,7 @@ const LandingPage = () => {
 
         <div>
           <header>
-            <SectionWrapper
+            {/* <SectionWrapper
               as="div"
               withVerticalSpacing={false}
               className="md:hidden py-6 md:py-8 lg:py-10"
@@ -61,7 +61,7 @@ const LandingPage = () => {
                   readOnly
                 />
               </div>
-            </SectionWrapper>
+            </SectionWrapper> */}
 
             <Hero />
 

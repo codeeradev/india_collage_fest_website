@@ -104,7 +104,7 @@ const Header = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4.5 8-12a8 8 0 10-16 0c0 7.5 8 12 8 12z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                <span className="max-w-[110px] truncate">{city ? city.city : "Choose City"}</span>
+                <span className="max-w-[110px] truncate max-[480px]:hidden">{city ? city.city : "Choose City"}</span>
               </Button>
 
               <Button
@@ -119,7 +119,7 @@ const Header = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 3v3m8-3v3M4 10h16M6 5h12a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 12v5m-2.5-2.5h5" />
                 </svg>
-                <span>Publish Event</span>
+                <span className="max-[480px]:hidden">Publish Event</span>
               </Button>
 
               {user ? (
@@ -143,7 +143,7 @@ const Header = () => {
                     )}
                     <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border border-white bg-emerald-400" />
                   </div>
-                  <span className="max-w-[120px] truncate text-xs font-semibold text-slate-700 group-hover:text-blue-700">
+                  <span className="max-w-[120px] truncate text-xs font-semibold text-slate-700 group-hover:text-blue-700 max-[480px]:hidden">
                     {user?.name || "Profile"}
                   </span>
                 </Button>
