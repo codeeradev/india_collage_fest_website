@@ -263,10 +263,10 @@ export default function InfoPage() {
           </nav>
 
           <section className="relative overflow-hidden rounded-[32px] border border-slate-200/80 bg-white/95 p-8 shadow-[0_24px_60px_-40px_rgba(15,23,42,0.45)] md:p-10">
-            <div className={`pointer-events-none absolute -top-16 right-[-4rem] h-56 w-56 rounded-full bg-gradient-to-br ${content.gradient} opacity-20 blur-3xl`} />
+            <div className="pointer-events-none absolute -top-16 right-[-4rem] h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
 
             <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-center">
-              <div className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${content.gradient} text-white shadow-lg`}>
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
                 {content.icon}
               </div>
 
@@ -287,7 +287,7 @@ export default function InfoPage() {
                   className="animate-enter-up rounded-2xl border border-slate-200/80 bg-white p-5 md:p-6"
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${content.gradient} text-sm font-semibold text-white`}>
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-primary-foreground">
                       {index + 1}
                     </div>
 
@@ -311,7 +311,7 @@ export default function InfoPage() {
                         rel={contact.href.startsWith("http") ? "noopener noreferrer" : undefined}
                         className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-md"
                       >
-                        <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${content.gradient} text-white shadow-md`}>
+                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md">
                           {contact.icon}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -353,47 +353,59 @@ export default function InfoPage() {
               )}
             </div>
 
-            <div className={`bg-gradient-to-r ${content.gradient} px-6 py-8 text-center text-white md:px-10 md:py-10`}>
-              <h3 className="text-2xl font-semibold">
-                {page === "contact" ? "Ready to Get Started?" : "Need Support?"}
-              </h3>
-              <p className="mx-auto mt-2 max-w-2xl text-sm text-white/90 md:text-base">
-                {page === "contact"
-                  ? "We are here to help you discover events and create better experiences."
-                  : "Reach out to our team for any questions about policies, account usage, or platform support."}
-              </p>
-              <Button
-                onClick={() => navigate(page === "contact" ? "/events" : "/info/contact")}
-                className="mt-5 rounded-full bg-white px-7 py-3 text-sm font-semibold text-slate-900 shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                {page === "contact" ? "Explore Events" : "Contact Us"}
-              </Button>
+            <div className="relative overflow-hidden bg-primary px-6 py-9 text-center text-primary-foreground md:px-10 md:py-12">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_30%,rgba(255,255,255,0.2),transparent_38%),radial-gradient(circle_at_85%_78%,rgba(255,255,255,0.14),transparent_34%)]" />
+
+              <div className="relative z-10">
+                <h3 className="text-2xl font-semibold tracking-tight md:text-3xl">
+                  {page === "contact" ? "Ready to Get Started?" : "Need Support?"}
+                </h3>
+                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-primary-foreground/90 md:text-base">
+                  {page === "contact"
+                    ? "We are here to help you discover events and create better experiences."
+                    : "Reach out to our team for any questions about policies, account usage, or platform support."}
+                </p>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate(page === "contact" ? "/events" : "/info/contact")}
+                  className="mt-6 h-auto rounded-full border-border/70 bg-background px-7 py-3 text-sm font-semibold text-foreground shadow-md transition hover:-translate-y-0.5 hover:bg-background/90 hover:text-foreground hover:shadow-lg"
+                >
+                  {page === "contact" ? "Explore Events" : "Contact Us"}
+                </Button>
+              </div>
             </div>
           </section>
 
-          <section className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {Object.keys(contentMap)
-              .filter((key) => key !== page)
-              .map((key) => (
-                <Button
-                  key={key}
-                  onClick={() => navigate(`/info/${key}`)}
-                  className="group rounded-2xl border border-slate-200 bg-white p-5 text-left transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md"
-                >
-                  <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${contentMap[key].gradient} text-white shadow-sm`}>
-                    {contentMap[key].icon}
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900 transition-colors group-hover:text-blue-700">
-                    {contentMap[key].title}
-                  </h3>
-                  <p className="mt-2 text-sm text-slate-600">Learn more -&gt;</p>
-                </Button>
-              ))}
+          <section className="mt-10">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-slate-900 md:text-xl">Explore More</h2>
+              <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Quick Navigation</p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {Object.keys(contentMap)
+                .filter((key) => key !== page)
+                .map((key) => (
+                  <Button
+                    key={key}
+                    type="button"
+                    variant="ghost"
+                    onClick={() => navigate(`/info/${key}`)}
+                    className="group h-auto w-full flex-col items-start justify-start whitespace-normal rounded-2xl border border-border bg-card p-5 text-left transition-all hover:-translate-y-0.5 hover:border-primary/30 hover:bg-accent/30 hover:shadow-md"
+                  >
+                    <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                      {contentMap[key].icon}
+                    </div>
+                    <h3 className="text-base font-semibold text-foreground transition-colors group-hover:text-primary">
+                      {contentMap[key].title}
+                    </h3>
+                    <p className="mt-2 text-sm text-muted-foreground">Learn more -&gt;</p>
+                  </Button>
+                ))}
+            </div>
           </section>
         </SectionWrapper>
     </PageLayout>
   );
 }
-
-
-
