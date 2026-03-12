@@ -30,10 +30,10 @@ const companyLinks = [
 ];
 
 const socialLinks = [
-  { label: "Instagram", href: "https://www.instagram.com/the_ticket_9/" },
-  { label: "Facebook", href: "https://www.facebook.com/theticket9" },
-  { label: "LinkedIn", href: "https://in.linkedin.com/company/theticket9" },
-  { label: "Twitter", href: "https://twitter.com/theticket9" },
+  { label: "Instagram", href: "https://www.instagram.com/indiacollegefest/" },
+  { label: "Facebook", href: "https://www.facebook.com/indiacollegefest" },
+  { label: "LinkedIn", href: "https://in.linkedin.com/company/indiacollegefest" },
+  { label: "Twitter", href: "https://twitter.com/indiacollegefest" },
 ];
 
 const Footer = () => {

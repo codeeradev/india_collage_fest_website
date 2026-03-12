@@ -125,14 +125,14 @@ const CityPage = () => {
             {
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "Ticket9",
-              url: `https://www.theticket9.com/city/${citySlug}`,
+              name: "indiacollegefest",
+              url: `https://www.indiacollegefest.com/city/${citySlug}`,
               potentialAction: {
                 "@type": "SearchAction",
                 target: {
                   "@type": "EntryPoint",
                   urlTemplate:
-                    "https://www.theticket9.com/event/{search_term_string}",
+                    "https://www.indiacollegefest.com/event/{search_term_string}",
                 },
                 "query-input": "required name=search_term_string",
               },
