@@ -86,7 +86,6 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
   const [hasMore, setHasMore] = useState(true);
 
   const scrollContainerRef = useRef(null);
-  const loadMoreRef = useRef(null);
   const requestIdRef = useRef(0);
   const isFetchingRef = useRef(false);
   const pageRef = useRef(0);
@@ -236,31 +235,33 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
   useEffect(() => {
     if (!open) return;
 
-    const rootElement = scrollContainerRef.current;
-    const sentinelElement = loadMoreRef.current;
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-    if (!rootElement || !sentinelElement) return;
+    const maybeLoadMore = () => {
+      if (isFetchingRef.current || !hasMoreRef.current) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (!firstEntry?.isIntersecting) return;
-        if (isFetchingRef.current) return;
-        if (!hasMoreRef.current) return;
+      const distanceToBottom =
+        container.scrollHeight - container.scrollTop - container.clientHeight;
 
+      if (distanceToBottom <= PRELOAD_OFFSET_PX) {
         fetchCitiesPage(pageRef.current + 1);
-      },
-      {
-        root: rootElement,
-        rootMargin: `0px 0px ${PRELOAD_OFFSET_PX}px 0px`,
-        threshold: 0.01,
-      },
-    );
+      }
+    };
 
-    observer.observe(sentinelElement);
+    const handleScroll = () => {
+      maybeLoadMore();
+    };
 
-    return () => observer.disconnect();
-  }, [open, fetchCitiesPage]);
+    container.addEventListener("scroll", handleScroll, { passive: true });
+
+    // When content is still short, keep preloading until scroll area is filled.
+    maybeLoadMore();
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+    };
+  }, [open, fetchCitiesPage, cities.length, searchQuery]);
 
   const handleClose = () => {
     if (!selectedCity) {
@@ -482,8 +483,6 @@ const CitySelectorModal = ({ open, onClose, onSelect }) => {
                           </Button>
                         ))}
                       </div>
-
-                      <div ref={loadMoreRef} className="h-1 w-full" aria-hidden="true" />
 
                       {loadingMore && (
                         <div className="flex items-center justify-center gap-2 py-4">
